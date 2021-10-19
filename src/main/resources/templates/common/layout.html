@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec = "http://www.thymeleaf.org/extras/spring-security">
+	<th:block th:fragment="setContent(content)">
+	<head>
+	   <meta charset="UTF-8"/>
+	   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	   <title>Spring Boot</title>
+	   <link rel="stylesheet" th:href="@{/bootstrap-4.6.0-dist/css/bootstrap.min.css}"/>
+	   <script th:src="@{/jquery/jquery-3.5.1.min.js}"></script>
+	   <script th:src="@{/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js}"></script>
+	
+	   <link rel="stylesheet" th:href="@{/css/app.css}"/>
+	</head>
+      
+      <body>
+         <div class="d-flex flex-column vh-100">
+            <nav class="navbar navbar-expand-sm bg-dark navbar-dark text-white font-weight-bold justify-content-between">
+               <a class="navbar-brand" href="/"> 
+                  <img th:src="@{/images/logo-springboot.png}" height="30" class="d-inline-block align-top">
+                  Spring Boot
+               </a>
+               <div>
+                  <!--/*  <div th:if="${session.sessionMid == null}"> 
+                     <a th:href="@{/}" class="btn btn-success btn-sm">로그인</a>
+                  </div>
+                  
+                  <div th:if="${session.sessionMid != null}">
+                     <span> User: [[${session.sessionMid}]]</span>
+                     <a th:href="@{/}" class="btn btn-dark btn-sm ml-2">로그아웃</a>
+                  </div>*/-->
+                  
+                  <div sec:authorize="!isAuthenticated()"> 
+                     <a th:href="@{/security/loginForm}" class="btn btn-success btn-sm">로그인</a>
+                  </div>
+                  
+                  <div sec:authorize="isAuthenticated()"> 
+                     <span> User: [[${#authentication.name}]]</span>
+                     <a th:href="@{/logout}" class="btn btn-dark btn-sm ml-2">로그아웃</a>
+                  </div>
+                  
+               </div>
+            </nav>
+      
+            <div class="flex-grow-1 container-fluid">
+               <div class="row h-100">
+                  <div class="col-md-4 p-3 bg-dark">
+                     <div class="h-100 d-flex flex-column">
+                        <div class="flex-grow-1" style="height: 0px; overflow-y: auto; overflow-x: hidden;">
+                           <!-- ############################################### -->
+                           <th:block th:replace="~{common/menu}"></th:block>
+                           <!-- ############################################### -->
+                        </div>
+                     </div>
+                  </div>
+      
+                  <div class="col-md-8 p-3">
+                     <div class=" h-100 d-flex flex-column">
+                        <div class="flex-grow-1 overflow-auto pr-3" style="height: 0px">
+							<!-- 항상 바뀌는 부분 -->
+							<!-- ############################################## -->	
+							<th:block th:replace="${content}"></th:block>							
+							<!-- ############################################## -->	
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </body>
+	</th:block>
+</html>
