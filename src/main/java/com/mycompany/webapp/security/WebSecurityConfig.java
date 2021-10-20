@@ -34,8 +34,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		log.info("configure(HttpSecurity http) 실행");
 		http.formLogin() //폼을 통해서 아이디와 비밀번호를 입력해서 인증을 하겠다.
 			.loginPage("/security/loginForm")		//default : /login(GET)
-			.usernameParameter("mid")				//default : username
-			.passwordParameter("mpassword") 		//default : password
+			.usernameParameter("mlogin_id")				//default : username
+			.passwordParameter("mpw") 		//default : password
 			.loginProcessingUrl("/login") 			//default : /login(POST)
 			.defaultSuccessUrl("/security/content")	
 			.failureUrl("/security/loginError");	//default : /login?error
