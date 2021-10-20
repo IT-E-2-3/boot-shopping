@@ -45,8 +45,8 @@ public class CartController {
    @Resource
    CartService cartService;
 
-   int total_amount = 0;
-   List<OrderRowDetailDto> OrderRowList;	
+  
+ 
 
    @GetMapping(value = "/insert", produces = "application/json;charset=UTF-8")
    @ResponseBody
@@ -56,6 +56,8 @@ public class CartController {
       cart.setMid(mid);
 //      logger.info(cart.toString());
 
+      
+     
       int chkcart = cartService.checkCart(cart);
       if (chkcart == 0) {
          cartService.insertProduct(cart);
@@ -71,13 +73,12 @@ public class CartController {
       return json;
    }
 
-   @RequestMapping("/")
-   public String cart2(Model model, Principal principal) {
-
+   @RequestMapping("/2")
+   public String cart(Model model, Principal principal) {
+	   int total_amount = 0;
       total_amount = 0;
-      logger.info("cart");
       MemberInfoDto member = orderService.getMid(principal.getName());
-    
+//         logger.info(mid);
 
       // cart의 내용 받아오기
 
@@ -86,6 +87,7 @@ public class CartController {
 
       // cart의 내용 받아오기
       // 지금은 cart 전체를 받아오지만
+      List<OrderRowDetailDto> OrderRowList;	
       OrderRowList = orderService.getMyCart(mid);
 
       DecimalFormat decFormat = new DecimalFormat("###,###");
@@ -106,6 +108,7 @@ public class CartController {
 
    //// json으로 장바구니에서 주문한 내용을 받아서 세션에 주문리스트를 저장한다.
    @PostMapping("jsonCartToOrder")
+   @ResponseBody
    public String orderForm2(@RequestBody List<Map<String, String>> attributeMap, HttpSession session) {
       logger.info("실행");
 
@@ -138,6 +141,7 @@ public class CartController {
 
    }
    @PostMapping("jsonSave")
+   @ResponseBody
    public String jsonSave(@RequestBody List<Map<String, String>> attributeMap, Principal principal) {
       logger.info("실행");
       MemberInfoDto member = orderService.getMid(principal.getName());
@@ -163,7 +167,7 @@ public class CartController {
          
       }
       
-      logger.info("실행");
+      
       JSONObject jsonObject = new JSONObject();
       jsonObject.put("result", "success");
       String json = jsonObject.toString(); // result : successs
@@ -173,6 +177,7 @@ public class CartController {
    }
 
    @PostMapping("jsonArrToDel")
+   @ResponseBody
    public String jsonArrToDel(@RequestBody List<Map<String, String>> attributeMap, Principal principal) {
       logger.info("실행");
 
@@ -206,6 +211,7 @@ public class CartController {
 
    //// json으로 장바구니에서 주문한 내용을 받아서 세션에 주문리스트를 저장한다.
    @PostMapping("jsondelone")
+   @ResponseBody
    public String jsondelone(@RequestBody OrderRowDetailDto orderRowDetailDto, Principal principal) {
       logger.info("실행");
       MemberInfoDto member = orderService.getMid(principal.getName());
