@@ -3,24 +3,33 @@
 <th:block th:replace="~{common/layout::setContent(~{this::content})}">
 <th:block th:fragment="content">
 
-<div class="m-r-200 m-l-200">
-	<div class="m-r-100 m-l-100">
-		<div class="m-t-25 m-b-25 p-t-10 p-b-10 row"
-			style="background-color: #d9ead3">
-			<h4 class="col-sm-7 ">주문번호 : [[${order.oid}]]</h4>
-			<div class="col-sm-5" style="text-align: right">(주문일시 :
-				[[${order.odate}]])</div>
-		</div>
-		<h3 class="text-black m-b-25">주문상품</h3>
-		<table class="table-shopping-cart m-b-77" style="width: 100%">
-			<thead class="table_head  h-25">
-				<tr>
-					<th class="col-sm-6 text-center text-black">상품 정보</th>
-					<th class="col-sm-1 text-center text-black">판매가</th>
-					<th class="col-sm-2 text-center text-black">수량</th>
-				</tr>
-			</thead>
-			<tbody>
+<h1 class="m-t-25 m-b-25 text-center">주문 완료</h1>
+<div class="m-t-25 m-b-25 text-center"
+	style="border-top: 0.3px solid #a5a3a3"></div>
+<h2 class="m-t-25 m-b-25 text-center ">주문이 완료되었습니다.</h2>
+<h3 class="m-t-25 m-b-25 text-center ">주문번호 : [[${order.oid}]] (주문일시 :
+	[[${order.odate}]])</h3>
+
+
+
+<div class="row">
+	<!-- 왼쪽 -->
+	<div class="col-sm-8 m-l-59">
+		<div>
+			<!-- 왼쪽 -->
+
+			<h3 class="text-black m-b-25">주문상품</h3>
+			<table class="table-shopping-cart m-b-77" style="width: 100%">
+				<thead class="table_head  h-25">
+					<tr>
+
+						<th class="col-sm-6 text-center text-black">상품 정보</th>
+						<th class="col-sm-1 text-center text-black">판매가</th>
+						<th class="col-sm-2 text-center text-black">수량</th>
+
+					</tr>
+				</thead>
+				<tbody>
 				<div th:each="item : ${orderItems}">
 					<tr class="table-secondary">
 						<!-- 상품 정보 th -->
@@ -58,7 +67,7 @@
 			</tbody>
 		</table>
 
-		<th:block th:if="${#strings.equals(order.opayment,'1')}">
+		<div th:if="${order.opayment==1}">
 			<h3>결제 정보</h3>
 			<table class=" table m-b-77" style="width: 100%">
 				<thead class=" h-25 ">
@@ -76,7 +85,7 @@
 							<div class="">신용카드</div>
 						</th>
 						<!-- 행 -->
-						<th class="col-sm-8 text-left text-black">[[${order.ocard_name}]]
+						<th class="col-sm-8 text-left text-black">${order.ocard_name}
 						</th>
 					</tr>
 
@@ -89,7 +98,7 @@
 						<!-- 행 -->
 						<th class="col-sm-8 text-left text-black">
 							<h4>
-								[[${#numbers.formatInteger( order.ototal_price/#conversions.convert(order.ocard_installment_period, 'java.lang.Integer'), 3, 'COMMA')}]]원* [[${order.ocard_installment_period}]] 달
+								[[${#numbers.formatInteger(order.ototal_price/order.ocard_installment_period, 3, 'COMMA')}]]원* ${order.ocard_installment_period} 달
 							</h4> 
 						</th>
 					</tr>
@@ -103,13 +112,13 @@
 						<!-- 행 -->
 						<th class="col-sm-8 text-left text-black">
 							<th:block>
-							[[${#numbers.formatInteger(order.ototal_price, 3, 'COMMA')}]]
+							[[${#numbers.formatInteger(order.ototal_price}, 3, 'COMMA')}]]
 							</th:block>
 						</th>
 					</tr>
 				</tbody>
 			</table>
-		</th:block>
+		</div>
 
 		<div th:if="${order.opayment==2}">
 			<h3>마일리지</h3>
@@ -131,7 +140,7 @@
 						<th class="col-sm-10 text-left text-black">
 
 							<div class="form-check d-inline-flex">
-								<h3>결제에 사용한 마일리지는 [[${order.ototal_price}]] 포인트 입니다.</h3>
+								<h3>결제에 사용한 마일리지는 ${order.ototal_price} 포인트 입니다.</h3>
 							</div>
 						</th>
 					</tr>
@@ -243,8 +252,29 @@
 
 			</tbody>
 		</table>
+
+
+		</div>
+
+	</div>
+	<!-- 왼쪽 끝  -->
+	<!-- 오른쪽 시작 -->
+
+	<div class="col-md-3 m-t-177 m-l-30 m-r-35 ">
+
+		<div class="" style="position: sticky; top: 170px;">
+			<div class=" ">
+
+				<a href="/order/orderList"
+					class="btn btn-outline-primary d-inline-flex">주문내역조회</a> <a
+					href="/" style="border: 2px solid #000000"
+					class="btn btn-primary d-inline-flex">쇼핑계속하기</a>
+			</div>
+		</div>
+
 	</div>
 </div>
+
 
 	
 </th:block>

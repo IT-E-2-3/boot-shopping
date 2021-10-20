@@ -3,8 +3,39 @@
 <th:block th:replace="~{common/layout::setContent(~{this::content})}">
 <th:block th:fragment="content">
 
+	<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner" style="height: 350px">
+        <div class="carousel-item active">
+          <th:block sec:authorize="!isAuthenticated()">
+          <a th:href="@{/security/loginForm}">
+          <img
+            class="d-block w-100"
+            th:src="@{/images/eventbanner.png}"
+            alt="First slide"
+          />
+          </a>
+          </th:block>
+          <th:block sec:authorize="isAuthenticated()">
+          <a th:href="@{event/}">
+          <img
+            class="d-block w-100"
+            th:src="@{/images/eventbanner.png}"
+            alt="First slide"
+          />
+          </a>
+          </th:block>
+        </div>
+      </div>
+    </div>
 
-
+	<div>
+		<a th:href="@{product/list?c=0404}">
+			<img th:src="@{/images/home_image.jpg}"/>
+		</a>
+		<a th:href="@{product/list?c=03}">
+			<img th:src="@{/images/home_image2.jpg}"/>
+		</a>
+	</div>
 	
 </th:block>
 </th:block>
