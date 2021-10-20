@@ -9,6 +9,7 @@
 	</insert>
 	
 	<select id="selectByMid" parameterType="string" resultType="member">
-		SELECT mlogin_id, mpw, mrole, menabled FROM member WHERE mlogin_id=#{mlogin_id}
+		SELECT mlogin_id, mpw, mrole, menabled FROM member 
+		WHERE mlogin_id=#{mlogin_id}
 	</select>
 </mapper> 

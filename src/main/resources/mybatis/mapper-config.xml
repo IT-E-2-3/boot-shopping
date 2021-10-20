@@ -25,5 +25,5 @@
 	<typeHandlers>
 		<typeHandler handler="com.mycompany.webapp.handler.CustomDateHandler" javaType="java.util.Date" jdbcType="DATE"/>
 	</typeHandlers>
-	  
+  
 </configuration>
