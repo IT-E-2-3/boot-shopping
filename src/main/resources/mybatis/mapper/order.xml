@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycompany.webapp.dao.OrderDao">
+	<select id="getMyCartByMlogin" resultType="orderRowDetail" parameterType="String">
+		 select mycart.mid, mycart.color_code, mycart.size_code, 
+		 color_url.product_detail_url1, product.pbrand, 
+		product.pname, product.pprice , mycart.camount as oamount
+		from (mycart join product on mycart.pid = product.pid ) join color_url on mycart.pid = color_url.pid and mycart.color_code= color_url.color_code
+     	where mid =#{mid}
+     	order by mycart.pid
+	</select>
+
+	<select id="getPriceByCartPid" resultType="cart"
+		parameterType="cart">
+		SELECT price
+		FROM product
+		where mid = #{cart.pid}
+	</select>
+
+	<select id="getMidBymolgin" parameterType="String"
+		resultType="MemberInfo">
+		SELECT mid,mtel,mname FROM member where mlogin_id =#{mlogin_id}
+	</select>
+  
+	<select id="selectAllbyMid" parameterType="String"
+		resultType="order">
+		SELECT OID ,MID ,ODATE, OZIP_CODE,
+		OADDRESS, ODETAIL_ADDRESS
+		,ORECIPIENT, ORECIPIENT_TEL ,OTOTAL_PRICE
+		,OCHANNEL, OCARD_NAME,
+		OCARD_INSTALLMENTRATE
+		,OCARD_INSTALLMENT_PERIOD, OACCOUNTHOLDER,
+		ODEPOSIT_DEADLINE, ORDER_TEL, OADDTIONAL_TEL, OREQUEST, 
+		ORECIPIENT_EMAIL, OPAYMENT
+		FROM ORDERS
+		where MID=#{mid}
+		order by ODATE desc
+	</select>
+
+	<select id="selectOrderbyOid" parameterType="String"
+		resultType="order">
+		SELECT OID ,MID ,ODATE, OZIP_CODE,
+		OADDRESS, ODETAIL_ADDRESS
+		,ORECIPIENT, ORECIPIENT_TEL ,OTOTAL_PRICE
+		,OCHANNEL, OCARD_NAME,
+		OCARD_INSTALLMENTRATE
+		,OCARD_INSTALLMENT_PERIOD, OACCOUNTHOLDER,
+		ODEPOSIT_DEADLINE, ORDER_TEL, OADDTIONAL_TEL, ORECIPIENT_EMAIL, OPAYMENT
+		FROM ORDERS
+		where OID=#{oid}
+	</select>
+
+	<select id="selectOrderItemsbyOid" parameterType="String"
+		resultType="orderItem">
+		SELECT OID, PID, COLOR_CODE, SIZE_CODE, OAMOUNT
+		FROM
+		ORDER_ITEMS
+		where OID=#{oid}
+	</select>
+
+	<select id="selectPnamebyPid" parameterType="String"
+		resultType="String">
+		SELECT PNAME
+		FROM PRODUCT
+		WHERE PID=#{pid}
+	</select>
+
+	<select id="selectImageUrl" resultType="String">
+		SELECT
+		product_detail_url1
+		FROM color_url
+		WHERE PID=#{pid} AND
+		COLOR_CODE=#{pcolor}
+	</select>
+
+	<select id="selectProductbyOid" parameterType="String" resultType="orderRowDetail">
+		select order_items.oid, color_url.color_code, product_detail_url1, pbrand, pname, pprice, order_items.oamount, order_items.size_code
+		from color_url join product on color_url.pid = product.pid join order_items on color_url.pid = order_items.pid and color_url.color_code = order_items.color_code
+		where oid=#{oid} and exists (
+		select * from order_items 
+		where oid = #{oid} and color_url.pid = order_items.pid and color_url.color_code = order_items.color_code)
+	</select>
+	
+	<select id="selectStockByPidColor" parameterType="orderRowDetail" resultType="int">
+		SELECT REMAINING_STOCK
+		FROM stock
+		WHERE pid=(SELECT pid FROM color_url where product_detail_url1=#{product_detail_url1}) and color_code=#{color_code} and size_code=#{size_code}
+	</select>
+	
+	<select id="selectAmountByPidColor" parameterType="orderRowDetail" resultType="int">
+		SELECT camount
+		FROM mycart
+		WHERE mid=#{mid} and pid=(SELECT pid FROM color_url where product_detail_url1=#{product_detail_url1}) and color_code=#{color_code} and size_code=#{size_code}
+	</select>
+	
+	<update id="updateStock" >
+		UPDATE stock
+		SET REMAINING_STOCK =#{stock_after}
+		WHERE pid=(SELECT pid FROM color_url where product_detail_url1=#{obj.product_detail_url1}) and color_code=#{obj.color_code} and size_code=#{obj.size_code}
+	</update>
+	
+	<delete id="DeleteProductFromCart" parameterType="orderRowDetail">
+		DELETE FROM mycart
+		WHERE mid=#{mid} and pid=(SELECT pid FROM color_url where product_detail_url1=#{product_detail_url1}) and color_code=#{color_code} and size_code=#{size_code}
+	</delete>
+	
+	<insert id="intertOrderItems">
+	INSERT INTO order_items
+	(oid, pid, color_code, size_code, oamount)
+	VALUES (#{oid},(SELECT pid FROM color_url where product_detail_url1=#{obj.product_detail_url1}), #{obj.color_code},#{obj.size_code}, #{obj.oamount})
+	</insert>
+	
+	<insert id="insertOrderByForm" parameterType="order" >
+	INSERT INTO orders
+	(oid, mid, odate, 
+	ozip_code, oaddress,odetail_address,
+	 orecipient, orecipient_tel,ototal_price,
+	  ochannel,  ocard_name, ocard_installmentrate, 
+	  ocard_installment_period, oaccountholder, odeposit_deadline,
+	  order_tel, oaddtional_tel, orequest, 
+	  orecipient_email , opayment)
+	VALUES (#{oid}, #{mid}, CURRENT_TIMESTAMP,
+	 #{ozip_code}, #{oaddress}, #{odetail_address}, 
+	 #{orecipient}, #{orecipient_tel}, #{ototal_price}, 
+	 #{ochannel}, #{ocard_name, jdbcType=VARCHAR}, #{ocard_installmentrate, jdbcType=VARCHAR}, 
+	 #{ocard_installmentrate_period, jdbcType=VARCHAR}, #{oaccountholder, jdbcType=VARCHAR}, #{odeposit_deadline, jdbcType=VARCHAR}, 
+	 #{order_tel}, #{oaddtional_tel}, #{orequest}, 
+	 #{orecipient_email, jdbcType=VARCHAR}, #{opayment, jdbcType=VARCHAR})
+	</insert>
+  	
+</mapper>

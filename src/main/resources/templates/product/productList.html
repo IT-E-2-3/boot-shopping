@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{common/layout::setContent(~{this::content})}">
+<th:block th:fragment="content">
+
+	<div class="page-title">
+		<th:block th:each="parents, status : ${parents}">
+			<div>
+				<a th:href="@{product/list(c=${parents.category_code})}">[[${parents.category_name}]]</a>
+			</div>
+			<th:block th:if="${status.last eq false}">
+				<div>&nbsp;>&nbsp;</div>
+			</th:block>
+		</th:block>
+	</div>
+	
+	<div style="display: grid; grid-template-columns: 15% 85%; margin: 0 150px">
+		<div id="sidebar">
+			<div>
+				<th:block th:each="sub, status2 : ${subcategory}">
+					<th:block th:if="${status2.first eq true}">
+						<h6 class="p-1 border-bottom"
+							style="text-align: center; font-size: 20px">[[${sub.category_name}]]</h6>
+					</th:block>
+					<th:block th:if="${status2.first eq false}">
+						<ul class="list-group list-group-flush ml-4">
+							<li class="list-group-item border-0 subcategory">
+								<a th:href="@{list(c=${sub.category_code})}">[[${sub.category_name}]]</a>
+							</li>
+						</ul>
+					</th:block>
+				</th:block>
+			</div>
+		</div>
+		<div id="products" class="container">
+			<div class="row">
+			<th:block th:each="product, s : ${plist}">
+				<div class="col-md-4 col-sm-6">
+					<div class="product-grid2">
+						<div class="product-image2">
+							<a th:class="'detail'+${s.count}">
+								<img class="pic-1" th:id="'apic'+${s.count}" src="" />
+								<img class="pic-2" th:id="'bpic'+${s.count}" src="" />
+							</a>
+						</div>
+						<div class="product-content">
+							<div class="size">[[${product.pbrand}]]</div>
+							<div class="title"><a th:class="'detail'+${s.count}">[[${product.pname}]]</a></div>
+							<div class="tag text-danger" th:id="'tag'+${s.count}"></div>
+							<th:block th:each="stock : ${stocklist}">
+								<th:block th:if="${product.pid eq stock.pid}">
+									<script>
+										var no = [[${s.count}]];
+										var p_stock = [[${stock.remaining_stock}]];
+										
+										var tag = "#tag" + no;
+										console.log('######', no, p_stock);
+										if(p_stock < 1){
+											document.querySelector(tag).textContent = "Sold out";
+										}
+									</script>
+								</th:block>
+							</th:block>
+							<div class="price">₩&nbsp;[[${product.pprice}]]</div>
+							<div>
+								<div class="color_chip" style="display: inline;">
+								<th:block th:each="color : ${colorlist}">
+									<th:block th:each="color2, status :${color}">
+										<!--/*  상품의 id와 컬러칩의 id가 같을 때 그 상품의 컬러칩 이미지를 불러온다. */-->
+										<th:block th:if="${product.pid eq color2.pid}">
+											<!--/* default로 보이는 이미지는 첫 번째 색상의 이미지 */-->
+											<th:block th:if="${status.first}">
+												<script th:inline="javascript">
+													//model값 자바스크립트에서 받아오기 
+													var url1 = [[${color2.product_detail_url1}]];
+													var url2 = [[${color2.product_detail_url2}]];
+													
+													var no = [[${s.count}]];
+													var pid = [[${color2.pid}]];
+													var colorcode = [[${color2.color_code}]];
+														
+													var pic1id = "#apic"+no;
+													var pic2id = "#bpic"+no;
+													
+													var detailhref = "detail?pid="+pid+"&co="+colorcode;
+													var detailclass = ".detail"+no;
+													
+													$(pic1id).attr("src", url1); 
+													$(pic2id).attr("src", url2);
+													$(detailclass).attr("href", detailhref);
+												</script>
+											</th:block>
+											<a href="javascript:chgColorChip(${color2.pid}, ${color2.color_code})" style="text-decoration:none;">
+												<img th:src="@{${color2.color_chip_url}}" style="width: 15px; height: 15px; margin: auto;"/>
+											</a>
+										</th:block>
+									</th:block>
+								</th:block>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<th:block th:if="${s.count%3==0}">
+				</th:block>
+			</th:block>
+			</div>
+		</div>
+	</div>
+	<div class="m-r-200 m-l-200">
+		<div class="m-r-300 m-l-300">
+			<div class="m-r-200 m-l-200">
+				<div class="btn-toolbar" role="toolbar"
+					aria-label="Toolbar with button groups"
+					style="justify-content: center">
+					<div class="btn-group me-2" role="group" aria-label="group">
+	         			<a class="page-link" th:href="@{list(c=${current.category_code},pageNo=1)}">처음</a>
+	         			<!-- 현재 그룹번호가 1이상일 경우에만 나타나게 함 -->
+	         			<a th:if="${pager.groupNo>1}" class="page-link" th:href="@{list(c=${current.category_code},pageNo=${pager.startPageNo-1}}"> 이전 </a>
+	         			
+						<th:block th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
+							<a th:classappend="(${pager.pageNo != i})?'page-link':'btn btn-outline-primary'" th:href="@{list(c=${current.category_code}, pageNo=${i})}">[[${i}]]</a>
+						</th:block>
+	         			
+	         			<!-- 현재 그룹번호가 전체 그룹 수보다 작을 경우에만 나타나게 함 -->
+         				<a th:if="${pager.groupNo<pager.totalGroupNo}" class="page-link" th:href="@{list(c=${current.category_code}, pageNo=${pager.endPageNo+1})}">이후</a>
+	         			
+	         			<a class="page-link" th:href="@{list(c=${current.category_code}, pageNo=${pager.totalPageNo})}">맨끝</a>
+	         		</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</th:block>
+</th:block>
+</html>
