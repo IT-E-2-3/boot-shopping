@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycompany.webapp.dao.ProductDao">
+	
+	<!-- 3뎁스 카테고리들을 출력 -->
+	<select id="getcategoryList" parameterType="string" resultType="category">
+		select category_code, category_name
+		from category
+		where category_code like #{cateCode}||'%' and category_level=3
+	</select>
+	
+	<!-- 현 카테고리 이름 출력 -->
+	<select id="currentCategory" parameterType="string" resultType="category">
+		select category_name, category_code, top_category_code
+		from category
+		where category_code = #{cateCode}
+	</select>
+	
+	<!-- 부모카테고리 이름 출력 -->
+	<select id="parentCategory" parameterType="string" resultType="category">
+		select b.category_name
+		from category a, category b
+		where a.category_code = #{cateCode}
+		and a.top_category_code = b.category_code
+	</select>
+	
+	<!-- 상품 리스트 가져오기 -->
+	<!-- <select id="getproductList" parameterType="string" resultType="plist">
+		select p.pid, p.pname, p.pbrand, p.pprice, p.category_code, c.product_detail_url1, c.product_detail_url2, c.color_chip_url, s.size_code
+		from product p
+		join color_url c
+		on p.pid = c.pid
+		join stock s
+		on c.pid = s.pid and c.color_code=s.color_code
+		where p.category_code like #{cateCode}||'%'
+	</select> -->
+	
+	<select id="getproductList" parameterType="pager" resultType="plist">
+		SELECT rnum, pid, pname, pbrand, pprice, category_code
+		FROM(
+			SELECT ROWNUM as rnum, pid, pname, pbrand, pprice, category_code
+			FROM(
+			    select pid, pname, pbrand, pprice, category_code
+				from product
+			    where category_code like #{cateCode}||'%'
+				)
+			WHERE ROWNUM &lt;= #{pager.endRowNo}
+			)
+		WHERE rnum &gt;= #{pager.startRowNo}
+		
+	</select>
+	
+	<!-- 상품 리스트의 개수 가져오기(페이징 처리를 위함) -->
+	<select id="getCountRows" parameterType="string" resultType="int">
+		select count(*)
+		from product p
+		where category_code like #{cateCode}||'%'
+	</select>
+	
+	<!-- 상품 상세정보 가져오기 -->
+	<select id="getproductDetail" parameterType="string" resultType="plist">
+		select p.pid, p.pname, p.pbrand, p.pprice, p.pdetail, c.color_code,c.product_detail_url1, c.product_detail_url2, c.product_detail_url3, c.color_chip_url
+		from product p join color_url c
+		on p.pid = c.pid
+		where c.color_code=#{color} and c.pid=#{pid}
+	</select>
+	
+	<!-- 상품 사이즈와 재고 가져오기 -->
+	<select id="getSizeList" parameterType="string" resultType="plist">
+		select s.size_code, s.remaining_stock
+		from color_url c join stock s
+		on c.pid = s.pid and c.color_code = s.color_code
+		where c.color_code=#{color} and c.pid=#{pid}
+	</select>
+	
+	<!--  상품 색상 가져오기 -->
+	<select id="getColorList" parameterType="string" resultType="plist">
+		select pid, color_code, color_chip_url, product_detail_url1, product_detail_url2, product_detail_url3
+		from color_url
+		where pid=#{pid}
+	</select>
+	
+	<!-- 관련(함께 코디된) 상품 정보 가져오기 -->
+	<select id="getMatchingCloth" parameterType="string" resultType="plist">
+		select p.pid, p.pname, p.pbrand, p.pprice, c2.product_detail_url3, c2.color_code
+		from product p join color_url c
+		on p.pid = substr(c.matching_clothe, 0, instr(c.matching_clothe, '_', 1, 1)-1)
+		join color_url c2
+		on p.pid = c2.pid and c2.color_code=regexp_substr(c.matching_clothe, '[^_]+', 1, 2)
+		where c.color_code=#{color} and c.pid=#{pid}
+	</select>
+</mapper>

@@ -15,4 +15,11 @@ public class HomeController {
 		//src/main/resources/templates에서 home.html을 찾는다.
 		return "home";
 	}
+	
+	@RequestMapping("/order")
+	public String order() {
+		log.info("실행");
+		//src/main/resources/templates에서 home.html을 찾는다.
+		return "order";
+	}
 }
