@@ -4,9 +4,9 @@
 <th:block th:fragment="content">
 
 	<div class="page-title">
-		<th:block th:each="parents, status : ${parents}">
+		<th:block th:each="parents, status : ${parent}">
 			<div>
-				<a th:href="@{product/list(c=${parents.category_code})}">[[${parents.category_name}]]</a>
+				<a th:href="@{list(c=${parents.category_code})}">[[${parents.category_name}]]</a>
 			</div>
 			<th:block th:if="${status.last eq false}">
 				<div>&nbsp;>&nbsp;</div>

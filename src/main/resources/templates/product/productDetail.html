@@ -178,9 +178,8 @@
               	<p class="stock-error text-danger text-center" style="font-weight:bold;"></p>
                 <div class="flex-w flex-r-m p-b-10">
                   <div class="size-204 flex-w flex-m respon6-next">
-
-                  	<!-- /* <th:block sec:authorize="!isAuthenticated()">
-					   <a class="flex-c-m stext-101 cl0 size-101 bg3 bor14 hov-btn3 p-lr-15 trans-04 text-center" href="/loginform" style="text-decoration:none;">
+                  	<th:block sec:authorize="!isAuthenticated()">
+					   <a class="flex-c-m stext-101 cl0 size-101 bg3 bor14 hov-btn3 p-lr-15 trans-04 text-center" href="/security/loginForm" style="text-decoration:none;">
  	                      Add to cart
 	                    </a>
 					</th:block>
@@ -189,11 +188,7 @@
 	                      class="flex-c-m stext-101 cl0 size-101 bg3 bor14 hov-btn3 p-lr-15 trans-04 text-center js-addcart-detail" id="addcart">
 	                      Add to cart
 	                    </button>
-                    </th:block>/*-->
-                    <button
-                      class="flex-c-m stext-101 cl0 size-101 bg3 bor14 hov-btn3 p-lr-15 trans-04 text-center js-addcart-detail" id="addcart">
-                      Add to cart
-                    </button>
+                    </th:block>
                   </div>
                 </div>
               </div>
@@ -339,6 +334,14 @@
       </div>
    </section>
    </th:block>
+    <script>
+    $(".js-select2").each(function () {
+        $(this).select2({
+          minimumResultsForSearch: 20,
+          dropdownParent: $(this).next(".dropDownSelect2"),
+        });
+      });
+ 	</script>
     
  	<script th:inline="javascript">
 //   $(".gallery-lb").each(function () {
@@ -354,7 +357,10 @@
 //   });
 	    $(document).ready(function(){
 	      $('#size').change(function(){
-	    	
+	    	  
+    	  	$('#addcart').prop("disabled", false);
+			$('.stock-error').html("");
+			
 	        var p_size_code = $("#size option:selected").val().substring($('#size').val().indexOf('|')+1); // member가 선택한 사이즈
 			if(p_size_code != 'option'){
 	        	var stock = Number($("#size option:selected").val().substring(0, $('#size').val().indexOf('|'))); //member가 선택한 사이즈의 재고
