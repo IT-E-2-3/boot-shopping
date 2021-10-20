@@ -8,6 +8,7 @@
 		from category
 		start with category_code = #{cateCode}
 		connect by top_category_code = prior category_code
+	</select>
 	
 	<!-- 현 카테고리 이름 출력 -->
 	<select id="currentCategory" parameterType="string" resultType="category">
