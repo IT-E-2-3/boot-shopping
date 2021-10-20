@@ -58,7 +58,7 @@
 			</tbody>
 		</table>
 
-		<div th:if="${order.opayment==1}">
+		<th:block th:if="${#strings.equals(order.opayment,'1')}">
 			<h3>결제 정보</h3>
 			<table class=" table m-b-77" style="width: 100%">
 				<thead class=" h-25 ">
@@ -76,7 +76,7 @@
 							<div class="">신용카드</div>
 						</th>
 						<!-- 행 -->
-						<th class="col-sm-8 text-left text-black">${order.ocard_name}
+						<th class="col-sm-8 text-left text-black">[[${order.ocard_name}]]
 						</th>
 					</tr>
 
@@ -89,7 +89,7 @@
 						<!-- 행 -->
 						<th class="col-sm-8 text-left text-black">
 							<h4>
-								[[${#numbers.formatInteger(order.ototal_price/order.ocard_installment_period, 3, 'COMMA')}]]원* ${order.ocard_installment_period} 달
+								[[${#numbers.formatInteger( order.ototal_price/#conversions.convert(order.ocard_installment_period, 'java.lang.Integer'), 3, 'COMMA')}]]원* [[${order.ocard_installment_period}]] 달
 							</h4> 
 						</th>
 					</tr>
@@ -103,13 +103,13 @@
 						<!-- 행 -->
 						<th class="col-sm-8 text-left text-black">
 							<th:block>
-							[[${#numbers.formatInteger(order.ototal_price}, 3, 'COMMA')}]]
+							[[${#numbers.formatInteger(order.ototal_price, 3, 'COMMA')}]]
 							</th:block>
 						</th>
 					</tr>
 				</tbody>
 			</table>
-		</div>
+		</th:block>
 
 		<div th:if="${order.opayment==2}">
 			<h3>마일리지</h3>
@@ -131,7 +131,7 @@
 						<th class="col-sm-10 text-left text-black">
 
 							<div class="form-check d-inline-flex">
-								<h3>결제에 사용한 마일리지는 ${order.ototal_price} 포인트 입니다.</h3>
+								<h3>결제에 사용한 마일리지는 [[${order.ototal_price}]] 포인트 입니다.</h3>
 							</div>
 						</th>
 					</tr>
