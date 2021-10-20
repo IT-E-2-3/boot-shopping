@@ -22,4 +22,10 @@ public class HomeController {
 		//src/main/resources/templates에서 home.html을 찾는다.
 		return "order";
 	}
+	
+	@RequestMapping("/mycoupon")
+	public String mycoupon() {
+		log.info("실행");
+		return "member/mycoupon";
+	}
 }
