@@ -4,7 +4,6 @@
 <th:block th:replace="~{common/layout::setContent(~{this::content})}">
 	<th:block th:fragment="content">
 
-
 		<link rel="stylesheet" th:href="@{/css/cart.css}" />
 
 		<link rel="stylesheet" type="text/css"
@@ -48,7 +47,7 @@
 									<div class="subdiv">
 										<div class="basketprice" style="text-align: center;">가격</div>
 										<div class="num" style="text-align: center;">수량</div>
-										<div class="sum" style="text-align: center;">합계</div>
+									<!-- 	<div class="sum" style="text-align: center;">합계</div> -->
 									</div>
 									<div class="subdiv">
 
@@ -60,7 +59,7 @@
 								<!--  <c:forEach items="${OrderRowList}" var="OrderRow" varStatus="vs">
 								 <th:block th:each="board, status : ${list}"> -->
 			<th:block th:each="OrderRow, status : ${OrderRowList}">
-						<div class="row data" style="height: 111px;">
+						<div class="row data" style="height: 125px;">
 							<div class="subdiv">
 								<div class="check" style="text-align: center;">
 									<input type="checkbox" th:class="'orders'+${status.count}" name="buy"
@@ -73,7 +72,7 @@
 										th:src="${OrderRow.product_detail_url1}" width="60">
 								</div>
 								<div class="pname">
-									<div class="col-sm-6 m-l-20 m-t-15">
+									<div class="col-sm-6 m-l-20 ">
 										<a href="#" class="basket_tlt" style="color: black"> <input
 											hidden="hidden" th:value="${OrderRow.pbrand}"
 											th:class="'orders'+${status.count}">
@@ -114,11 +113,11 @@
 											style="color: black;" class="far fa-minus-square down"></i></span> 
 									</div>
 								</div>
-								<div class="sum">[[${OrderRow.oamount*OrderRow.pprice}]]원</div>
+								<!-- <div class="sum">[[${OrderRow.oamount*OrderRow.pprice}]]원</div> -->
 							</div>
 							<div class="subdiv">
 								<div class="basketcmd">
-									<a href="javascript:void(0)" th:class="'abutton orders'+${status.count}"
+									<a href="javascript:void(0)" th:class="'orders'+${status.count}+' abutton'"
 										onclick="javascript:basket.delItem();">삭제</a>
 										
 								</div>
@@ -214,7 +213,7 @@
 
 
 
-		<script>
+<script>
     let basket = {
     totalCount: 0, 
     totalPrice: 0,
@@ -224,7 +223,7 @@
        //json 배열 생성
        //기본 리프래시 비활성화
        if(this.totalPrice===0){
-    	   swal("상품을 선택해주세요", "체크박스를 통해 장바구니의 물건을 담으세요!","error");
+    	   swal("상품을 선택해주세요", "체크박스를 통해 장바구니의 물건을 담으세요!","warning");
     	   return false;
        }
         event.preventDefault();
@@ -351,10 +350,11 @@
               async: false,
               data:JSON.stringify(jsonArray)
            }).done((data) => {
-              console.log("result")
+              console.log("result");
              // window.location.href="/order/"
-              
            })      
+           console.log("쇼핑백 저장");
+          swal("쇼핑백 저장", "현재 쇼핑백 내용을 저장했습니다.", "success");
            
     },
         
@@ -470,8 +470,8 @@
    
     //화면 업데이트
     updateUI: function () {
-        document.querySelector('#sum_p_num').textContent = '상품갯수: ' + this.totalCount+ '개';
-        document.querySelector('#sum_p_price').textContent = '합계금액: ' + this.totalPrice + '원';
+        document.querySelector('#sum_p_num').textContent = this.totalCount;
+        document.querySelector('#sum_p_price').textContent = this.totalPrice;
     },
     //개별 수량 변경
     changePNum: function (vs) {

@@ -20,7 +20,7 @@ public class OrderDto {
 	private String ochannel="the handsome";
 	private String ocard_name;
 	private String ocard_installmentrate;
-	private String ocard_installmentrate_period;
+	private String ocard_installment_period;
 	private String oaccountholder;
 	private String odeposit_deadline;
 	private String order_tel;

@@ -144,10 +144,3 @@ public class Pager {
 		this.endRowIndex = endRowIndex;
 	}
 }
-
-
-
-
-
-
-
