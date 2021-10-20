@@ -25,16 +25,16 @@
 		</div>
 		<button type="button" class="btn btn-outline-primary btn-lg"
 			style="background-color: #FFF98C; border-color: #5676CA; font-size: 20px;"
-			onclick="javascript:issueCoupon(event)">쿠폰 발급받기</button>
+			onclick="issueCoupon(event)">쿠폰 발급받기</button>
 		<button type="button" class="btn btn-outline-primary btn-lg"
 			style="background-color: #FFF98C; border-color: #5676CA; font-size: 20px;"
-			onclick="javascript:issueCoupon2(event)">쿠폰 발급받기2</button>
+			onclick="issueCoupon2(event)">쿠폰 발급받기2</button>
 	</div>
-	<script>
+	<script th:inline="javascript">
 		 function issueCoupon(event){
 		         console.log(event);   
-		         var mid = "<c:out value='${mid}'/>";
-		         
+		         var mid = [[${mid}]];
+		         console.log("mid", mid);
 		         $.ajax({
 		            url:"issue" + "/" + mid,
 		              method:"get"
@@ -51,9 +51,10 @@
 		      }
 		</script>
 
-	<script>
+	<script th:inline="javascript">
 			function issueCoupon2(event){
-		         var mid = "<c:out value='${mid}'/>";
+		         var mid = [[${mid}]];
+		         console.log("mid", mid);
 		         $.ajax({
 			            url:"rediscoupon" + "/" + mid,
 			              method:"get"
@@ -66,7 +67,7 @@
 				               swal("쿠폰 이벤트", "쿠폰 발급이 실패하였습니다.", "error");
 				            }
 			            
-			         })
+			    })
 			}
 		</script>
 
