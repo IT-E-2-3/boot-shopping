@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{common/layout::setContent(~{this::content})}">
+<th:block th:fragment="content">
+
+	<div id="bodyWrap" style="height:500px;">
+		<h3 class="cnts_title">
+			<span id="menuTitle">나의 쿠폰</span>
+		</h3>
+		<hr />
+		<div class="sub_container">
+			<!-- cnts -->
+			<div class="sub_cnts d-flex justify-content-center mt-3">
+				<!-- Table -->
+				<div class="tblwrap">
+					<table class="tbl_ltype">
+						<colgroup>
+							<col style="width:110px">
+							<col style="width:80px">
+							<col style="width:300px">
+							<col style="width:130px">
+							<col style="width:130px">
+							<col style="width:50px">
+						</colgroup>
+						<thead>
+							<tr style="background-color:#EAEAEA;">
+								<th scope="col">쿠폰번호</th>
+								<th scope="col">종류</th>
+								<th scope="col">내용</th>
+								<th scope="col">시작일자</th>
+								<th scope="col">유효기간</th>
+								<th scope="col">사용상태</th>
+							</tr>
+						</thead>
+						<tbody id="listBody">
+							<th:block th:if="${couponList==null}">
+							<tr>
+								<td colspan="6" class="no_data">내역이 없습니다.</td>
+							</tr>
+							</th:block>
+							<th:block th:if="${couponList != null}">
+								<th:block th:each="coupon : ${couponList}">
+									<tr>
+										<td>[[${coupon.eid}]]</td>
+										<td>[[${coupon.coupon_type}]]</td>
+										<td>[[${coupon.ename}]]</td>
+										<td>[[${coupon.coupon_startdate}]]</td>
+										<td>[[${coupon.coupon_expiredate}]]</td>
+										<td>[[${coupon.coupon_state}]]</td>
+									</tr>
+								</th:block>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+				<!-- //Table -->
+			</div>
+			<!-- //cnts -->
+		</div>
+	</div>
+	
+</th:block>
+</th:block>
+</html>
