@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycompany.webapp.dao.ProductDao">
 	
-	<!-- 3뎁스 카테고리들을 출력 -->
+	<!-- 하위 카테고리들을 출력 -->
 	<select id="getcategoryList" parameterType="string" resultType="category">
-		select category_code, category_name
+		select category_code, category_name, top_category_code
 		from category
-		where category_code like #{cateCode}||'%' and category_level=3
-	</select>
+		start with category_code = #{cateCode}
+		connect by top_category_code = prior category_code
 	
 	<!-- 현 카테고리 이름 출력 -->
 	<select id="currentCategory" parameterType="string" resultType="category">
@@ -18,10 +18,11 @@
 	
 	<!-- 부모카테고리 이름 출력 -->
 	<select id="parentCategory" parameterType="string" resultType="category">
-		select b.category_name
-		from category a, category b
-		where a.category_code = #{cateCode}
-		and a.top_category_code = b.category_code
+		select category_code, category_name, top_category_code
+		from category
+		start with category_code = #{cateCode}
+		connect by prior top_category_code = category_code
+		order by category_code
 	</select>
 	
 	<!-- 상품 리스트 가져오기 -->
@@ -43,6 +44,7 @@
 			    select pid, pname, pbrand, pprice, category_code
 				from product
 			    where category_code like #{cateCode}||'%'
+			    order by pname
 				)
 			WHERE ROWNUM &lt;= #{pager.endRowNo}
 			)
@@ -88,5 +90,15 @@
 		join color_url c2
 		on p.pid = c2.pid and c2.color_code=regexp_substr(c.matching_clothe, '[^_]+', 1, 2)
 		where c.color_code=#{color} and c.pid=#{pid}
+	</select>
+
+	<!-- 하나의 상품의 모든 컬러 모든 재고를 가져온다 -->
+	<select id="getStockListByPid" parameterType="string" resultType="plist">
+		select p.pid, s.size_code, c.color_code, s.remaining_stock
+		from product p join color_url c
+		on p.pid = c.pid
+		join stock s
+		on c.pid =s.pid and c.color_code = s.color_code
+		where p.pid = #{pid}
 	</select>
 </mapper>

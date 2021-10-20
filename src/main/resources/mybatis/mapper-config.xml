@@ -7,22 +7,18 @@
 	  	<typeAlias alias="member" type="com.mycompany.webapp.dto.Member"/>
 	  	<typeAlias alias="board" type="com.mycompany.webapp.dto.Board"/>
 	  	<typeAlias alias="pager" type="com.mycompany.webapp.dto.Pager"/>
-	  	
-	  	<typeAlias type="com.mycompany.webapp.dto.CartDto" alias="cart"/>
-		<typeAlias alias="category" type="com.mycompany.webapp.dto.CategoryDto" />
-		<typeAlias alias="product" type="com.mycompany.webapp.dto.ProductDto" />
-		<typeAlias type="com.mycompany.webapp.dto.ProductDto" alias="product"/>
-    	<typeAlias alias="order" type="com.mycompany.webapp.dto.OrderDto" />
-		<typeAlias alias="orderItem" type="com.mycompany.webapp.dto.OrderItemDto" />
-		<typeAlias alias="orderRowDetail" type="com.mycompany.webapp.dto.OrderRowDetailDto" />
-		<typeAlias alias="MemberInfo" type="com.mycompany.webapp.dto.MemberInfoDto" />
-    <!-- 경무 		<typeAlias alias="OrderRowDetail" type="com.mycompany.webapp.dto.OrderRowDetailDto" /> -->
-		<typeAlias alias="plist" type="com.mycompany.webapp.dto.ProductListDto" />
-		<typeAlias alias="pager" type="com.mycompany.webapp.dto.Pager" />		
-		<typeAlias alias="coupon" type="com.mycompany.webapp.dto.CouponDto" />
-		<typeAlias alias="event" type="com.mycompany.webapp.dto.EventDto" />	
-		
-		
+      <typeAlias type="com.mycompany.webapp.dto.CartDto" alias="cart"/>
+      <typeAlias alias="category" type="com.mycompany.webapp.dto.CategoryDto" />
+      <typeAlias alias="product" type="com.mycompany.webapp.dto.ProductDto" />
+      <typeAlias alias="order" type="com.mycompany.webapp.dto.OrderDto" />
+      <typeAlias alias="orderItem" type="com.mycompany.webapp.dto.OrderItemDto" />
+      <typeAlias alias="orderRowDetail" type="com.mycompany.webapp.dto.OrderRowDetailDto" />
+      <typeAlias alias="MemberInfo" type="com.mycompany.webapp.dto.MemberInfoDto" />
+      <!-- 경무 		<typeAlias alias="OrderRowDetail" type="com.mycompany.webapp.dto.OrderRowDetailDto" /> -->
+      <typeAlias alias="plist" type="com.mycompany.webapp.dto.ProductListDto" />
+      <typeAlias alias="pager" type="com.mycompany.webapp.dto.Pager" />		
+      <typeAlias alias="coupon" type="com.mycompany.webapp.dto.CouponDto" />
+      <typeAlias alias="event" type="com.mycompany.webapp.dto.EventDto" />	
 	  </typeAliases>
 	  
 	  
