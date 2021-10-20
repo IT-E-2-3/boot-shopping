@@ -8,7 +8,6 @@
 		from category
 		start with category_code = #{cateCode}
 		connect by top_category_code = prior category_code
-	</select>
 	
 	<!-- 현 카테고리 이름 출력 -->
 	<select id="currentCategory" parameterType="string" resultType="category">
@@ -92,7 +91,7 @@
 		on p.pid = c2.pid and c2.color_code=regexp_substr(c.matching_clothe, '[^_]+', 1, 2)
 		where c.color_code=#{color} and c.pid=#{pid}
 	</select>
-	
+
 	<!-- 하나의 상품의 모든 컬러 모든 재고를 가져온다 -->
 	<select id="getStockListByPid" parameterType="string" resultType="plist">
 		select p.pid, s.size_code, c.color_code, s.remaining_stock

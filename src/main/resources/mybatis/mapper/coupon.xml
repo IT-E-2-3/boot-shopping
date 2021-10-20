@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycompany.webapp.dao.CouponDao">
+	<select id="selectRemainigCoupon" parameterType="String" resultType="int">
+		select eamount
+		from event
+		where eid=#{eid} for update
+	</select>
+	
+	<select id="selectCheckifCouponissued" parameterType="String" resultType="int">
+    select count(*)
+		from mycoupon
+		where mid=#{mid} and eid=#{eid}
+  </select>
+	
+	<insert id="insertCoupon" parameterType="coupon">
+		insert into mycoupon values(#{mid}, #{eid}, #{coupon_startdate}, #{coupon_expiredate}, #{coupon_type}, #{coupon_state})
+	</insert>	
+	
+	<update id="updateCouponAmount" parameterType="String">
+		update event
+		set eamount = eamount - 1
+		where eid=#{eid} 
+	</update>
+	
+	<select id="selectEventStartTIme" parameterType="String" resultType="DATE">
+		select estart_time
+		from event
+		where eid=#{eid}
+   </select>
+  
+	<select id="getCouponList" parameterType="string" resultType="coupon">
+		select m.mid, m.eid, m.coupon_startdate, m.coupon_expiredate, m.coupon_type, m.coupon_state, e.ename
+		from mycoupon m join event e
+		on m.eid = e.eid
+		where mid=#{mid}
+	</select>
+	
+	<select id="midGetCoupon" parameterType="string" resultType="int">
+		select count(mid)
+		from mycoupon
+		where mid=#{mid}
+	</select>
+</mapper>

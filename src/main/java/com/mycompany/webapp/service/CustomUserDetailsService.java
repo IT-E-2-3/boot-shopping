@@ -28,17 +28,19 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		log.info("실행");
+		log.info("username " + username);
 		Member member = memberDao.selectByMid(username);
 		if(member == null) {
 			throw new UsernameNotFoundException(username);
 		}
 		
 		List<GrantedAuthority> authorities = new ArrayList<>();
+		//log.info("mrole " + member.getMrole());
 		authorities.add(new SimpleGrantedAuthority(member.getMrole()));
 		
 		CustomUserDetails userDetails = new CustomUserDetails(
-			member.getMid(),
-			member.getMpassword(),
+			member.getMlogin_id(),
+			member.getMpw(),
 			member.isMenabled(),
 			authorities,
 			member.getMemail()
