@@ -37,13 +37,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 			.usernameParameter("mlogin_id")				//default : username
 			.passwordParameter("mpw") 		//default : password
 			.loginProcessingUrl("/login") 			//default : /login(POST)
-			.defaultSuccessUrl("/security/content")	
+			.defaultSuccessUrl("/")	
 			.failureUrl("/security/loginError");	//default : /login?error
 		
 		/*로그아웃 설정*/
 		http.logout()
 			.logoutUrl("/logout")					//default : /logout
-			.logoutSuccessUrl("/security/content");
+			.logoutSuccessUrl("/");
 		
 		/*url 권한 설정*/
 		http.authorizeRequests()
