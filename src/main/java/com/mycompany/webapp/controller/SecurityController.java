@@ -37,7 +37,7 @@ public class SecurityController {
 	public String loginError(Model model) {
 		log.info("실행");
 		model.addAttribute("loginError", true);
-		return "security/loginError";
+		return "security/loginForm";
 	}
 
 	@RequestMapping("/accessDenied")

@@ -5,7 +5,11 @@
 <configuration>
 	  <typeAliases>
 	  	<typeAlias alias="member" type="com.mycompany.webapp.dto.Member"/>
+	  	<typeAlias alias="memberinfo" type="com.mycompany.webapp.dto.MemberInfoDto"/>
 	  	<typeAlias alias="board" type="com.mycompany.webapp.dto.Board"/>
 	  	<typeAlias alias="pager" type="com.mycompany.webapp.dto.Pager"/>
+	  	<typeAlias alias="orderRowDetail" type="com.mycompany.webapp.dto.OrderRowDetailDto" />
+	  	<typeAlias alias="order" type="com.mycompany.webapp.dto.OrderDto" />
+	  	<typeAlias alias="orderItem" type="com.mycompany.webapp.dto.OrderItemDto" />
 	  </typeAliases>
 </configuration>

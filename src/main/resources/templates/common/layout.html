@@ -6,19 +6,14 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Spring Boot</title>
-<link rel="stylesheet"
-	th:href="@{/bootstrap-4.6.0-dist/css/bootstrap.min.css}" />
-<script th:src="@{/jquery/jquery-3.5.1.min.js}"></script>
-<script th:src="@{/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js}"></script>
 
 <link rel="stylesheet" th:href="@{/css/app.css}" />
-
 <!--===============================================================================================-->
 <link rel="icon" type="image/jpg" th:href="@{/images/icons/hansome.jpg}" />
 <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}" />
-<script src="@{/jquery/jquery-3.2.1.min.js}"></script>
-<script src="@{/bootstrap/js/popper.min.js}"></script>
-<script src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/jquery/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/bootstrap/js/popper.min.js}"></script>
+<script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
 <!--===============================================================================================-->
 <link rel="stylesheet" type="text/css"
 	th:href="@{/fonts/font-awesome-4.7.0/css/font-awesome.min.css}" />
@@ -36,8 +31,15 @@
 <link rel="stylesheet" type="text/css" th:href="@{/css/app.css}" />
 <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}" />
 <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
-<link rel="stylesheet" type="text/css"
-	th:href="@{/css/style.css?version=53}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+<link rel="stylesheet" type="text/css" media="all"
+	th:href="@{/dist/css/datepicker.min.css}">
+<script
+	th:src="@{/dist/js/datepicker.js}"></script>
+<script
+	th:src="@{/dist/js/i18n/datepicker.ko.js}"></script>
+
+
 	</head>
 
 	<body>
@@ -70,7 +72,7 @@
 						</div>
 
 						<li class="nav-item"><a class="nav-link">쇼핑백</a></li>
-						<li class="nav-item"><a class="nav-link">주문조회</a></li>
+						<li class="nav-item"><a class="nav-link" th:href="@{/order/orderList}">주문조회</a></li>
 						<div sec:authorize="isAuthenticated()">
 							<li class="nav-item"><a class="nav-link">마이쿠폰</a></li>
 						</div>
