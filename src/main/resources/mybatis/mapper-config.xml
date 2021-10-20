@@ -7,5 +7,8 @@
 	  	<typeAlias alias="member" type="com.mycompany.webapp.dto.Member"/>
 	  	<typeAlias alias="board" type="com.mycompany.webapp.dto.Board"/>
 	  	<typeAlias alias="pager" type="com.mycompany.webapp.dto.Pager"/>
+	  	<typeAlias alias="plist" type="com.mycompany.webapp.dto.ProductListDto" />
+	  	<typeAlias alias="product" type="com.mycompany.webapp.dto.ProductDto" />
+	  	<typeAlias alias="category" type="com.mycompany.webapp.dto.CategoryDto" />
 	  </typeAliases>
 </configuration>
