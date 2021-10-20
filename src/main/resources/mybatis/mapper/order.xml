@@ -123,7 +123,7 @@
 	 #{ozip_code}, #{oaddress}, #{odetail_address}, 
 	 #{orecipient}, #{orecipient_tel}, #{ototal_price}, 
 	 #{ochannel}, #{ocard_name, jdbcType=VARCHAR}, #{ocard_installmentrate, jdbcType=VARCHAR}, 
-	 #{ocard_installmentrate_period, jdbcType=VARCHAR}, #{oaccountholder, jdbcType=VARCHAR}, #{odeposit_deadline, jdbcType=VARCHAR}, 
+	 #{ocard_installment_period, jdbcType=VARCHAR}, #{oaccountholder, jdbcType=VARCHAR}, #{odeposit_deadline, jdbcType=VARCHAR}, 
 	 #{order_tel}, #{oaddtional_tel}, #{orequest}, 
 	 #{orecipient_email, jdbcType=VARCHAR}, #{opayment, jdbcType=VARCHAR})
 	</insert>
