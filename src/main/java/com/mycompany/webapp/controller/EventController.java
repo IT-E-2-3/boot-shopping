@@ -301,7 +301,7 @@ public class EventController {
 			public synchronized String call() throws Exception {
 				
 				logger.info("mid " + mid + " " + Thread.currentThread().getName() + ": 이벤트 처리");
-				String eid = "2";
+				String eid = "11";
 				
 				// 날짜 확인
 				Date curDate = new Date();

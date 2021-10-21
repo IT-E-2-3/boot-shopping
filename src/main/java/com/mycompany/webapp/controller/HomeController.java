@@ -23,9 +23,4 @@ public class HomeController {
 		return "order";
 	}
 	
-	@RequestMapping("/mycoupon")
-	public String mycoupon() {
-		log.info("실행");
-		return "member/mycoupon";
-	}
 }
