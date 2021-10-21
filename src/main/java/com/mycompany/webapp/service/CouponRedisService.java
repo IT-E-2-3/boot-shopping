@@ -57,7 +57,7 @@ public class CouponRedisService {
 	@Cacheable(cacheNames = "eamount")
 	public int getCouponCounts() {
 		logger.info("not cached : get coupons");
-		return (int) valueOps.get("eamount");
+		return Integer.parseInt((String) valueOps.get("eamount"));
 	}
   
 //   @Cacheable(cacheNames = "couponNum")
@@ -103,7 +103,7 @@ public class CouponRedisService {
 	//이미 받아간 사람인지 확인하는 메서드
 	@Cacheable(cacheNames = "epeople", unless="#result == false" )
 	public boolean checkCouponMid(String mid, String eid){
-		logger.info("checkCouponMid");
+		logger.info("checkCouponMid " + valueOps.get(mid));
 		if(valueOps.get(mid) != null){
 			return true;
 		}
