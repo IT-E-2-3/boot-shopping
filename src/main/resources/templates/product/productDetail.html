@@ -86,9 +86,6 @@
 							<option value="option">옵션을 선택해주세요.</option>
 							<th:block th:each="size :${sizelist}">
 								<option th:value="${size.remaining_stock}+'|'+${size.size_code}">[[${size.size_code}]]</option>
-								<script th:inline="javascript">
-									var p_stock = [[${size.remaining_stock}]];
-								</script>
 							</th:block>
 						</select>
                       <div class="dropDownSelect2"></div>
@@ -144,27 +141,28 @@
                   </div>
                 </div>
                 <script th:inline="javascript">
-	               $('.btn-num-product-down').on('click', function(){
-	                  var numProduct = Number($(this).next().val());
-	                   if(numProduct > 1) $(this).next().val(numProduct - 1);
-	                   
-	                   var productprice = document.querySelector('#productprice').textContent;
-	                    document.querySelector('#totalprice').textContent = productprice * productnum.value;
-	               });
+                	function changeSum(){
+                		var productprice = document.querySelector('#productprice').textContent;
+						document.querySelector('#totalprice').textContent = productprice * productnum.value;
+                	}
+                	
+					$('.btn-num-product-down').on('click', function(){
+						var numProduct = Number($(this).next().val());
+						if(numProduct > 1) $(this).next().val(numProduct - 1);
+						changeSum();
+					});
 	               
-	               $('.btn-num-product-up').on('click', function(){
+					$('.btn-num-product-up').on('click', function(){
 						var numProduct = Number($(this).prev().val());
 						var stock = Number($("#size option:selected").val().substring(0, $('#size').val().indexOf('|'))); //member가 선택한 사이즈의 재고
 						
 						if(numProduct < stock){
 							$(this).prev().val(numProduct + 1);
-	                   
-							var productprice = document.querySelector('#productprice').textContent;
-							document.querySelector('#totalprice').textContent = productprice * productnum.value;
+							changeSum();
 						}else{
 							swal("재고 부족", "선택하신 수량이 구매하실 수 있는 최대 수량입니다.", "warning");
 						}
-	               });
+					});
             	</script>
 
                 <hr />
@@ -334,14 +332,6 @@
       </div>
    </section>
    </th:block>
-    <script>
-    $(".js-select2").each(function () {
-        $(this).select2({
-          minimumResultsForSearch: 20,
-          dropdownParent: $(this).next(".dropDownSelect2"),
-        });
-      });
- 	</script>
     
  	<script th:inline="javascript">
 //   $(".gallery-lb").each(function () {
@@ -356,104 +346,132 @@
 //     });
 //   });
 	    $(document).ready(function(){
-	      $('#size').change(function(){
-	    	  
-    	  	$('#addcart').prop("disabled", false);
-			$('.stock-error').html("");
+	    	
+	    	//수량을 +, - 버튼이 아니라 직접 입력해도 총 합계가 변경되도록 함
+			$("#productnum").change(function() {
+			    var currentVal = $(this).val();
+			    changeSum();
+			});
 			
-	        var p_size_code = $("#size option:selected").val().substring($('#size').val().indexOf('|')+1); // member가 선택한 사이즈
-			if(p_size_code != 'option'){
-	        	var stock = Number($("#size option:selected").val().substring(0, $('#size').val().indexOf('|'))); //member가 선택한 사이즈의 재고
-			}
-	        console.log(p_size_code, stock);
-	        
-	        if(stock<=0){
-	          $('#addcart').prop("disabled", true);
-	          $('#addcart').attr("disabled", "disabled");
-	          $('.stock-error').html("재고가 없습니다.");
-	        }
+			$('#size').change(function(){
+			    	
+			  	//장바구니 담기 버튼은 기본적으로 활성화된 상태
+				$('#addcart').prop("disabled", false);
+				$('.stock-error').html("");
+			
+				var p_size_code = $("#size option:selected").val().substring($('#size').val().indexOf('|')+1); // member가 선택한 사이즈
+				if(p_size_code != 'option'){
+					var stock = Number($("#size option:selected").val().substring(0, $('#size').val().indexOf('|'))); //member가 선택한 사이즈의 재고
+				}
+			    console.log(p_size_code, stock);
+			     
+				//재고가 없으면 장바구니담기버튼 비활성화 & 에러메시지 출력
+				if(stock<=0){
+				  $('#addcart').prop("disabled", true);
+				  $('#addcart').attr("disabled", "disabled");
+				  $('.stock-error').html("재고가 없습니다.");
+				}
+			
+				// 수량을 늘렸다가 옵션 변경할 때, 선택한 수량보다 (변경한 옵션의)재고가 적을 경우 자동으로 수량을 재고수량으로 맞춰줌  
+				var numProduct = productnum.value;
+				if(numProduct > stock){
+					$('#productnum').val(stock);
+					changeSum();
+		     	}
+			});
+		})
+	    
+	    //select디자인 요소
+	    $(".js-select2").each(function () {
+	        $(this).select2({
+	          minimumResultsForSearch: -1,
+	          dropdownParent: $(this).next(".dropDownSelect2"),
+	        });
 	      });
-	    })
-	</script>
-  	<script>
-    $(".js-addcart-detail").each(function () {
-        var nameProduct = $(this)
-          .parent()
-          .parent()
-          .parent()
-          .parent()
-          .find(".js-name-detail")
-          .html();
-        $(this).on("click", function () {
-          const p_pid = productid.value; //상품 id
-          const p_color_code = pcolor.value; // member가 선택한 색상 = 현재product의 color 
-          const p_camount = productnum.value; //수량
-	      const p_size_code = $("#size option:selected").val().substring($('#size').val().indexOf('|')+1); // member가 선택한 사이즈
-	      if(p_size_code != 'option'){
-	      	var p_stock = Number($("#size option:selected").val().substring(0, $('#size').val().indexOf('|'))); //member가 선택한 사이즈의 재고
-	      }
-          console.log(p_pid, p_color_code, p_size_code, p_camount);
-          console.log('####', p_stock);
-          
-          let checkResult = true;
-          
-          //사이즈 필수 입력
-          if(p_size_code=='option'){
-            checkResult = false;
-            swal("사이즈 선택 안함", "사이즈를 선택해주세요!", "warning");
-          }
-          
-          //선택한 수량이 현재 재고보다 많을 때
-          if(p_camount > p_stock){
-        	  checkResult = false;
-        	  swal("재고 부족","재고보다 선택한 수량이 더 많습니다.", "warning");
-          }
-          
-          //서버로 제출할지 말지 결정
-          if(!checkResult) {
-              return false;
-        }
-          
-          //ajax 시작
-          $.ajax({
-            url : "/cart/insert",
-            method:"get",
-            data : {
-              mid : null,
-              pid : p_pid,
-              color_code : p_color_code,
-              size_code : p_size_code,
-              camount : p_camount
-            },
-              contentType: "application/x-www-form-urlencoded; charset=UTF-8;"
-          }).done((data)=>{
-            console.log(data);
-            if(data.result =="success"){
-          //swal 시작
-          swal({
-            title: nameProduct,
-            text: "장바구니에 담았습니다.",
-            icon: "success",
-            buttons: {
-              cancle: {
-                text: "계속 쇼핑하기",
-                value: false,
-                className: "swal_confirm",
-              },
-              confirm: {
-                text: "쇼핑백으로 가기",
-                value: true,
-              },
-            },
-          }).then((result) => {
-            if (result) window.location.href = "/cart/2";
-          });
-          //swal끝
-            }
-          });
-          //ajax 끝
-        });
-      });
+		
+	    //장바구니 담기
+	    $(".js-addcart-detail").each(function () {
+	        var nameProduct = $(this)
+	          .parent()
+	          .parent()
+	          .parent()
+	          .parent()
+	          .find(".js-name-detail")
+	          .html();
+	        $(this).on("click", function () {
+	          const p_pid = productid.value; //상품 id
+	          const p_color_code = pcolor.value; // member가 선택한 색상 = 현재product의 color 
+	          const p_camount = productnum.value; //수량
+		      const p_size_code = $("#size option:selected").val().substring($('#size').val().indexOf('|')+1); // member가 선택한 사이즈
+		      if(p_size_code != 'option'){
+		      	var p_stock = Number($("#size option:selected").val().substring(0, $('#size').val().indexOf('|'))); //member가 선택한 사이즈의 재고
+		      }
+	          console.log(p_pid, p_color_code, p_size_code, p_camount);
+	          console.log('####', p_stock);
+	          
+	          let checkResult = true;
+	          
+	          //사이즈 필수 입력
+	          if(p_size_code=='option'){
+	            checkResult = false;
+	            swal("사이즈 선택 안함", "사이즈를 선택해주세요!", "warning");
+	          }
+	          
+	          //선택한 수량이 현재 재고보다 많을 때
+	          if(p_camount > p_stock){
+	        	  checkResult = false;
+	        	  
+	        	  $('#productnum').val(p_stock);
+	        	  changeSum();
+	        	  
+				  swal("재고 부족","재고보다 선택한 수량이 더 많습니다.", "warning");
+	          }
+	          
+	          //서버로 제출할지 말지 결정
+	          if(!checkResult) {
+	              return false;
+	        }
+	          
+	          //ajax 시작
+	          $.ajax({
+	            url : "/cart/insert",
+	            method:"get",
+	            data : {
+	              mid : null,
+	              pid : p_pid,
+	              color_code : p_color_code,
+	              size_code : p_size_code,
+	              camount : p_camount
+	            },
+	              contentType: "application/x-www-form-urlencoded; charset=UTF-8;"
+	          }).done((data)=>{
+	            console.log(data);
+	            if(data.result =="success"){
+	          //swal 시작
+	          swal({
+	            title: nameProduct,
+	            text: "장바구니에 담았습니다.",
+	            icon: "success",
+	            buttons: {
+	              cancle: {
+	                text: "계속 쇼핑하기",
+	                value: false,
+	                className: "swal_confirm",
+	              },
+	              confirm: {
+	                text: "쇼핑백으로 가기",
+	                value: true,
+	              },
+	            },
+	          }).then((result) => {
+	            if (result) window.location.href = "/cart/2";
+	          });
+	          //swal끝
+	            }
+	          });
+	          //ajax 끝
+	        });
+	      });
   </script>
   
 </th:block>
