@@ -3,17 +3,20 @@
 <th:block th:replace="~{common/layout::setContent(~{this::content})}">
 <th:block th:fragment="content">
 
+	<!--*/category 표시 /* -->
 	<div class="page-title">
 		<th:block th:each="parents, status : ${parent}">
 			<div>
 				<a th:href="@{list(c=${parents.category_code})}">[[${parents.category_name}]]</a>
 			</div>
+			<!--*/ 마지막에는 부등호를 표시하지 않기 위함 /* -->
 			<th:block th:if="${status.last eq false}">
 				<div>&nbsp;>&nbsp;</div>
 			</th:block>
 		</th:block>
 	</div>
 	
+	<!--*/ 이미지 + 사이드바 /* -->
 	<div style="display: grid; grid-template-columns: 15% 85%; margin: 0 150px">
 		<div id="sidebar">
 			<div>
@@ -49,6 +52,7 @@
 							<div class="tag text-danger" th:id="'tag'+${s.count}"></div>
 							<th:block th:each="stock : ${stocklist}">
 								<th:block th:if="${product.pid eq stock.pid}">
+								<!--*/ 품절된 상품에 soldout 표시를 위한 JS /* -->
 									<script>
 										var no = [[${s.count}]];
 										var p_stock = [[${stock.remaining_stock}]];
@@ -72,6 +76,7 @@
 											<th:block th:if="${status.first}">
 												<script th:inline="javascript">
 													//model값 자바스크립트에서 받아오기 
+													//url 달라지게 하는 부분
 													var url1 = [[${color2.product_detail_url1}]];
 													var url2 = [[${color2.product_detail_url2}]];
 													
@@ -101,12 +106,12 @@
 						</div>
 					</div>
 				</div>
-				<th:block th:if="${s.count%3==0}">
-				</th:block>
+				
 			</th:block>
 			</div>
 		</div>
 	</div>
+	<!--*/ 페이저 /* -->
 	<div class="m-r-200 m-l-200">
 		<div class="m-r-300 m-l-300">
 			<div class="m-r-200 m-l-200">

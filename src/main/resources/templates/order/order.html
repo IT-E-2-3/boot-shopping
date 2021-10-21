@@ -6,9 +6,9 @@
 		<div class="card m-2">
 			<form>
 				<div class="row">
-					<!-- 왼쪽 -->
+					<!--*/  왼쪽 */-->
 					<div class="col-sm-7 m-l-35">
-						<!-- 상품 정보 테이블 시작 -->
+						<!--*/  상품 정보 테이블 시작 */-->
 						<table class="table-shopping-cart m-b-77" style="width: 100%">
 							<thead class="table_head  h-25">
 								<tr>
@@ -18,24 +18,24 @@
 								</tr>
 							</thead>
 							<tbody>
-								<!-- <c:forEach var="item" items="${OrderRowList}$> -->
+								<!--*/  <c:forEach var="item" items="${OrderRowList}$> */-->
 								<th:block th:each="item : ${OrderRowList}">
 									<tr class="table-head">
 
-										<!-- 상품 정보 th 사진+정보 -->
+										<!--*/  상품 정보 th 사진+정보 */-->
 										<th class="col-sm-6">
-											<!-- 상품 정보  row-->
+											<!--*/  상품 정보  row-->
 											<div class="row">
 
 												<div class="col-sm-4">
-													<!-- 상품 사진 -->
+													<!--*/  상품 사진 */-->
 													<div class="stext-110 cl2 m-l-25 m-t-10 m-b-10">
 														<img th:src="${item.product_detail_url1}" alt=""
 															style="width: 98px;">
 													</div>
 												</div>
 
-												<!-- 상품 설명 -->
+												<!--*/  상품 설명 */-->
 												<div class="col-sm-6 m-l-20 m-t-35">
 													<a href="#" class="basket_tlt" style="color: black">
 														<p class="tlt">[[${item.pbrand}]]</p>
@@ -48,32 +48,32 @@
 												</div>
 											</div>
 										</th>
-										<!-- 상품 정보 th 사진+정보 끝 -->
+										<!--*/  상품 정보 th 사진+정보 끝 */-->
 
-										<!-- 가격시작 -->
+										<!--*/  가격시작 */-->
 										<th class="col-sm-1 text-left">
 											<div class="m-t-7 m-r-30 m-l--0 ">₩ [[${item.pprice}]]</div>
 										</th>
-										<!-- 가격끝 -->
+										<!--*/  가격끝 */-->
 
 
 
-										<!-- 수량 시작 -->
+										<!--*/  수량 시작 */-->
 										<th class="col-sm-2 text-center text-black">
 											<div class="m-t-7 m-r-30 m-l--0 onePrice ">[[${item.oamount}]]
 												개</div>
 										</th>
-										<!-- 수량 끝 -->
+										<!--*/  수량 끝 */-->
 									</tr>
 								</th:block>
-								<!-- 	</c:forEach> -->
+								<!--*/  	</c:forEach> */-->
 							</tbody>
 						</table>
 
 
-						<!-- 상품 정보 테이블 끝 -->
+						<!--*/  상품 정보 테이블 끝 */-->
 
-						<!-- 공 테이블 -->
+						<!--*/  공 테이블 */-->
 
 						<h3>주문자 정보</h3>
 						<table class="table m-b-77" style="width: 100%">
@@ -86,27 +86,27 @@
 							<tbody>
 
 								<tr class="table-secondary">
-									<!-- 행 -->
+									<!--*/  행 */-->
 
 									<th class="col-sm-2 text-center text-black table-active"
 										style="border-right: 0.3px solid #cabfbf; border-bottom: 0.3px solid #a5a3a3">
 										<div class="">주문자</div>
 									</th>
-									<!-- 행 -->
+									<!--*/  행 */-->
 									<th class="col-sm-10 text-left text-black">
 										<div class="">[[${member.mname}]]</div>
 									</th>
 								</tr>
 
 								<tr class="table-secondary">
-									<!-- 행 -->
+									<!--*/  행 */-->
 
 									<th class="col-sm-2 text-center text-black table-active"
 										style="border-right: 0.3px solid #cabfbf; border-bottom: 0.3px solid #a5a3a3">
 										<div style="vertical-align: middle" class="p-all-10 m-t-15">
 											휴대폰</div>
 									</th>
-									<!-- 행 -->
+									<!--*/  행 */-->
 									<th class="col-sm-10 text-left text-black">
 										<div class="form-group  w-25 d-inline-block m-b-10">
 											<label for="tel1" class="form-label"></label> <select
@@ -141,7 +141,7 @@
 									</th>
 								</tr>
 
-								<!-- <tr class="table-secondary">
+								<!--*/  <tr class="table-secondary">
                      행
 
                      <th class="col-sm-2 text-center text-black table-active"
@@ -153,13 +153,13 @@
                         type="email" class="form-control text-center"
                         id="orecipient_email" aria-describedby="emailHelp"
                         placeholder="0000" name="orecipient_email"></th>
-                  </tr> -->
+                  </tr> */-->
 							</tbody>
 						</table>
-						<!-- 주문자 정보 테이블 끝 -->
+						<!--*/  주문자 정보 테이블 끝 */-->
 
 
-						<!-- 배송지 정보 테이블 -->
+						<!--*/  배송지 정보 테이블 */-->
 						<h3>배송지 정보</h3>
 						<table class="table m-b-77" style="width: 100%">
 							<thead class=" h-25 ">
@@ -171,13 +171,13 @@
 							<tbody>
 
 								<tr class="table-secondary">
-									<!-- 행 -->
+									<!--*/  행 */-->
 
 									<th class="col-sm-2 text-center text-black table-active"
 										style="border-right: 0.3px solid #cabfbf; border-bottom: 0.3px solid #a5a3a3">
 										<div class="">배송지 주소</div>
 									</th>
-									<!-- 행 -->
+									<!--*/  행 */-->
 									<th class="col-sm-10 text-left text-black">
 										<div class="">
 											<div class="form-group w-25 d-inline-block text-center">
@@ -214,13 +214,13 @@
 
 
 								<tr class="table-secondary">
-									<!-- 행 -->
+									<!--*/  행 */-->
 
 									<th class="col-sm-2 text-center text-black table-active"
 										style="border-right: 0.3px solid #cabfbf; border-bottom: 0.3px solid #a5a3a3">
 										<div class="">수령인</div>
 									</th>
-									<!-- 행 -->
+									<!--*/  행 */-->
 									<th class="col-sm-10 text-left text-black">
 										<div class="">
 											<div class="">
@@ -236,13 +236,13 @@
 									</th>
 								</tr>
 								<tr class="table-secondary">
-									<!-- 행 -->
+									<!--*/  행 */-->
 									<th class="col-sm-2 text-center text-black table-active"
 										style="border-right: 0.3px solid #cabfbf; border-bottom: 0.3px solid #a5a3a3">
 										<div style="vertical-align: middle" class="p-all-10 m-t-15">
 											휴대폰 번호</div>
 									</th>
-									<!-- 행 -->
+									<!--*/  행 */-->
 									<th class="col-sm-10 text-left text-black">
 										<div class="form-group  w-25 d-inline-block m-b-10">
 											<label for="exampleSelect1" class="form-label"></label> <select
@@ -275,14 +275,14 @@
 								</tr>
 
 								<tr class="table-secondary">
-									<!-- 행 -->
+									<!--*/  행 */-->
 
 									<th class="col-sm-2 text-center text-black table-active"
 										style="border-right: 0.3px solid #cabfbf; border-bottom: 0.3px solid #a5a3a3">
 										<div style="vertical-align: middle" class="p-all-10 m-t-15">
 											연락처</div>
 									</th>
-									<!-- 행 -->
+									<!--*/  행 */-->
 									<th class="col-sm-10 text-left text-black">
 										<div class="form-group  w-25 d-inline-block m-b-10">
 
@@ -315,13 +315,13 @@
 								</tr>
 
 								<tr class="table-secondary">
-									<!-- 행 -->
+									<!--*/  행 */-->
 									</th>
 									<th class="col-sm-2 text-center text-black table-active"
 										style="border-right: 0.3px solid #cabfbf; border-bottom: 0.3px solid #a5a3a3">
 										<div class="">배송요청사항</div>
 									</th>
-									<!-- 행 -->
+									<!--*/  행 */-->
 									<th class="col-sm-10 text-left text-black">
 										<div class="">
 											<div class="form-group w-75 d-inline-block text-center">
@@ -335,13 +335,13 @@
 								</tr>
 
 								<tr class="table-secondary">
-									<!-- 행 -->
+									<!--*/  행 */-->
 									<th class="col-sm-2 text-center text-black table-active"
 										style="border-right: 0.3px solid #cabfbf; border-bottom: 0.3px solid #a5a3a3">
 										<div style="vertical-align: middle" class="p-all-10 m-t-15">
 											수령인 Email</div>
 									</th>
-									<!-- 행 -->
+									<!--*/  행 */-->
 									<th class="col-sm-10 text-left text-black">
 										<div class="form-group w-25 d-inline-block text-center">
 											<label for="exampleInputEmail1" class="form-label mt-4"></label>
@@ -376,9 +376,9 @@
 								</tr>
 							</tbody>
 						</table>
-						<!-- 공 테이블 끝 -->
+						<!--*/  공 테이블 끝 */-->
 
-						<!-- 결제 수단 -->
+						<!--*/  결제 수단 */-->
 						<h3>결제 수단 선택</h3>
 						<table class="table m-b-77" style="width: 100%">
 							<thead class=" h-25 ">
@@ -389,12 +389,12 @@
 							</thead>
 							<tbody>
 								<tr class="table-secondary">
-									<!-- 행 -->
+									<!--*/  행 */-->
 									<th class="col-sm-2 text-center text-black table-active"
 										style="border-right: 0.3px solid #cabfbf; border-bottom: 0.3px solid #a5a3a3">
 										<div class="">결제수단 선택</div>
 									</th>
-									<!-- 행 -->
+									<!--*/  행 */-->
 									<th class="col-sm-10 text-left text-black">
 										<fieldset class="form-group" name="payment">
 											<div class="form-check d-inline-flex">
@@ -417,15 +417,15 @@
 												</label>
 											</div>
 											<div></div>
-										</fieldset> <c:if test=""></c:if>
+										</fieldset>
 									</th>
 								</tr>
 
 							</tbody>
 						</table>
-						<!-- 공 테이블 끝 -->
+						<!--*/  공 테이블 끝 */-->
 
-						<!-- 카드뷰 -->
+						<!--*/  카드뷰 */-->
 						<div id="cardView">
 							<h3>결제 수단 선택</h3>
 							<table class="table m-b-77" style="width: 100%">
@@ -441,7 +441,7 @@
 
 
 									<tr class="table-secondary ">
-										<!-- 행 -->
+										<!--*/  행 */-->
 										<th class="col-sm-3 text-center text-black"
 											style="border-right: 0.3px solid #cabfbf;">
 											<fieldset class="form-group2" name="1">
@@ -458,7 +458,7 @@
 										</th>
 
 
-										<!-- 행 -->
+										<!--*/  행 */-->
 										<th class="col-sm-5 text-center text-black"
 											style="border-right: 0.3px solid #cabfbf;">현대카드 5만원 이상
 											결제시 2~7개월 무이자 할부 <input type="text" hidden=""
@@ -485,7 +485,7 @@
 
 
 									<tr class="table-secondary ">
-										<!-- 행 -->
+										<!--*/  행 */-->
 										<th class="col-sm-3 text-center text-black"
 											style="border-right: 0.3px solid #cabfbf;">
 											<fieldset class="form-group2" name="1">
@@ -502,7 +502,7 @@
 										</th>
 
 
-										<!-- 행 -->
+										<!--*/  행 */-->
 										<th class="col-sm-5 text-center text-black"
 											style="border-right: 0.3px solid #cabfbf;">현대카드 5만원 이상
 											결제시 2~7개월 무이자 할부 <input type="text" hidden=""
@@ -524,16 +524,16 @@
 												<option value="4">4개월</option>
 												<option value="5">5개월</option>
 
-										</select> <!--  <input
+										</select> <!--*/   <input
                            type="text" class="form-control text-center BC" placeholder="3"
                            id="ocard_installment_period"
-                           name="ocard_installment_period" value="3" maxlength="2"> -->
+                           name="ocard_installment_period" value="3" maxlength="2"> */-->
 										</th>
 									</tr>
 
 								</tbody>
 							</table>
-							<!-- 공 테이블 끝 -->
+							<!--*/  공 테이블 끝 */-->
 						</div>
 
 						<div id="mileageView">
@@ -548,12 +548,12 @@
 								</thead>
 								<tbody>
 									<tr class="table-secondary">
-										<!-- 행 -->
+										<!--*/  행 */-->
 										<th class="col-sm-2 text-center text-black table-active"
 											style="border-right: 0.3px solid #cabfbf; border-bottom: 0.3px solid #a5a3a3">
 											<div class="">사용 마일리지</div>
 										</th>
-										<!-- 행 -->
+										<!--*/  행 */-->
 										<th class="col-sm-10 text-left text-black">
 
 											<div class="form-check d-inline-flex">
@@ -579,12 +579,12 @@
 								</thead>
 								<tbody>
 									<tr class="table-secondary">
-										<!-- 행 -->
+										<!--*/  행 */-->
 										<th class="col-sm-2 text-center text-black table-active"
 											style="border-right: 0.3px solid #cabfbf; border-bottom: 0.3px solid #a5a3a3">
 											<div class="">입금 위치</div>
 										</th>
-										<!-- 행 -->
+										<!--*/  행 */-->
 										<th class="col-sm-10 text-left text-black">
 
 											<div class="form-check d-inline-flex">
@@ -594,12 +594,12 @@
 									</tr>
 
 									<tr class="table-secondary">
-										<!-- 행 -->
+										<!--*/  행 */-->
 										<th class="col-sm-2 text-center text-black table-active"
 											style="border-right: 0.3px solid #cabfbf; border-bottom: 0.3px solid #a5a3a3">
 											<div class="">입금 기한</div>
 										</th>
-										<!-- 행 -->
+										<!--*/  행 */-->
 										<th class="col-sm-10 text-left text-black">
 
 											<div class="form-check d-inline-flex">
@@ -618,8 +618,8 @@
 
 
 					</div>
-					<!-- 왼쪽 끝  -->
-					<!-- 오른쪽 시작 -->
+					<!--*/  왼쪽 끝  */-->
+					<!--*/  오른쪽 시작 */-->
 					<div class="col-md-4 m-b-50 m-l-10 m-r-35">
 
 						<div class="" style="position: sticky; top: 90px;">
@@ -658,7 +658,7 @@
 
 					</div>
 				</div>
-				<!-- 오른쪽 끝 -->
+				<!--*/  오른쪽 끝 */-->
 			</form>
 
 		</div>

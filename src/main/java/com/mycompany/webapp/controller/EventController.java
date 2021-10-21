@@ -46,8 +46,7 @@ public class EventController {
 	 * 스레드 처리를 위함 newFixedThreadPool(threadnum)
 	 */
 	
-	private ExecutorService singleexecutorService = Executors.newSingleThreadExecutor();
-	private BlockingQueue<Runnable> blockingQueue = new ArrayBlockingQueue<Runnable>(1);
+
 	private ExecutorService multiexecutorService = Executors.newFixedThreadPool(4);
 
 	@Resource
@@ -75,219 +74,10 @@ public class EventController {
 		model.addAttribute("eid", "11");
 		model.addAttribute("mid", mid);
 		model.addAttribute("event", event);
-		//logger.info("#######" + event);
+	
 		return "event/event";
 	}
-	
-// 	//레디스에서 테스트하는 메서드
-// 		@GetMapping(value = "rediscoupon/{mid}", produces = "application/json'; charset=UTF-8")
-// 		@ResponseBody
-// 		public String redisCoupon(@PathVariable("mid") String mid, Model model) throws InterruptedException, ExecutionException {
-			
-// 			JSONObject jsonObject = new JSONObject();
-			
-// 			Callable<String> task = new Callable<String>() {
 
-// 				@Override
-// 				public synchronized String call() throws Exception {
-					
-// 					logger.info("mid " + mid + " " + Thread.currentThread().getName() + ": 이벤트 처리");
-// 					String eid = "11";
-					
-// 					// 날짜 확인
-// 					Date curDate = new Date();
-// 					Date estartDate = (Date) model.getAttribute("eventStartDate");
-					
-// 					if (curDate.before(estartDate)) {
-// 						return "fail";
-// 					}
-					
-					
-// 					//쿠폰 남은 수량이 0인지 redis 에서 확인한다
-// //					@Cacheable("getCouponAmount")
-// 					int cahcedCouponNum = redisCompo.getCouponCounts(1);
-// 					logger.info("cahcedCouponNum : "+cahcedCouponNum);
-// 					if(cahcedCouponNum < 1) {
-// 						return "fail";
-// 					}
-						
-// 					// 이미 발급된 회원 아이디	
-// 					if(redisservice.checkCouponMid(mid, eid)) { 
-// 						logger.info("redisservice : fail");
-// 						return "fail";
-// 					}
-					
-					
-					
-// 					/* ----------------여기까지 실패의 경우의 수 -----------------*/
-					
-// 					// 쿠폰 생성
-// 					CouponDto newCoupon = new CouponDto();
-// 					newCoupon.setEid(eid);
-// 					newCoupon.setMid(mid);
-// 					newCoupon.setCoupon_type("type");
-// 					newCoupon.setCoupon_state("1");
-
-// 					// 쿠폰 유효기간 설정 (임의)
-// 					Date date = new Date();
-// 					long timeInMilliSeconds = date.getTime();
-// 					java.sql.Date date1 = new java.sql.Date(timeInMilliSeconds);
-
-// 					newCoupon.setCoupon_startdate(date1);
-// 					newCoupon.setCoupon_expiredate(date1);
-
-// 					// 쿠폰 발급 트랜잭션
-// 					EventTransferResult result = couponservice.issueCoupon(newCoupon);
-// 					logger.info("transaciton info " + result);
-
-// 					if (result.toString().contains("FAIL")) {
-// 						return "fail";
-// 					}
-					
-// 					return "success";
-// 				}
-// 			};
-
-// 			Future<String> future = multiexecutorService.submit(task);
-// 			String futureResult = future.get();
-
-// 			jsonObject.put("result", futureResult);
-			
-// 			String json = jsonObject.toString();
-// 			return json;
-			
-//		}
-///*************************************************/
-
-
-	// 싱글 스레드 
-	@GetMapping(value = "issue/{mid}", produces = "application/json'; charset=UTF-8")
-	@ResponseBody
-	public String issueCoupon(@PathVariable("mid") String mid, Model model) throws InterruptedException, ExecutionException {
-		logger.info("싱글 스레드 실행");
-		
-		Callable<String> task = new Callable<String>() {
-
-			@Override
-			public String call() throws Exception {
-				
-				logger.info("mid " + mid);
-				logger.info(Thread.currentThread().getName() + ": 이벤트 처리");
-				
-				String eid = "11";
-				
-				// 날짜 확인
-				Date curDate = new Date();
-				Date estartDate = couponservice.getEventStartTime(eid);
-
-				// 결과 변수
-				JSONObject jsonObject = new JSONObject();
-				
-				if (curDate.before(estartDate)) {
-					return "fail";
-				}
-				
-				// 쿠폰 생성
-				CouponDto newCoupon = new CouponDto();
-				newCoupon.setEid(eid);
-				newCoupon.setMid(mid);
-				newCoupon.setCoupon_type("type");
-				newCoupon.setCoupon_state("1");
-
-				// 쿠폰 유효기간 설정 (임의)
-				Date date = new Date();
-				long timeInMilliSeconds = date.getTime();
-				java.sql.Date date1 = new java.sql.Date(timeInMilliSeconds);
-
-				newCoupon.setCoupon_startdate(date1);
-				newCoupon.setCoupon_expiredate(date1);
-
-				// 쿠폰 발급
-				EventTransferResult result = couponservice.issueCoupon(newCoupon);
-				logger.info("transaciton info " + result);
-
-				if (result.toString().contains("FAIL")) {
-					return "fail";
-				}
-				
-				return "success";
-			}
-		};
-
-		Future<String> future = singleexecutorService.submit(task);
-		String futureResult = future.get();
-
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("result", futureResult);
-    
-		String json = jsonObject.toString();
-		return json;
-	}
-	
-	
-	/**
-	 * 멀티 스레드 실행 
-	 * */
-	@GetMapping(value = "issue2/{mid}", produces = "application/json'; charset=UTF-8")
-	@ResponseBody
-	public String issueCoupon2(@PathVariable("mid") String mid, Model model) throws InterruptedException, ExecutionException {
-		logger.info("멀티 스레드 실행");
-
-		Callable<String> task = new Callable<String>() {
-
-			@Override
-			public synchronized String call() throws Exception {
-				
-				logger.info("mid " + mid);
-				logger.info(Thread.currentThread().getName() + ": 이벤트 처리");
-				
-				String eid = "11";
-				
-				// 날짜 확인
-				Date curDate = new Date();
-				Date estartDate = couponservice.getEventStartTime(eid);
-
-				if (curDate.before(estartDate)) {
-					return "fail";
-				}
-				
-				// 쿠폰 생성 -- mycoupon - // mid eid
-				CouponDto newCoupon = new CouponDto();
-				newCoupon.setEid(eid);
-				newCoupon.setMid(mid);
-				newCoupon.setCoupon_type("type");
-				newCoupon.setCoupon_state("1");
-
-				// 쿠폰 유효기간 설정 (임의)
-				Date date = new Date();
-				long timeInMilliSeconds = date.getTime();
-				java.sql.Date date1 = new java.sql.Date(timeInMilliSeconds);
-
-				newCoupon.setCoupon_startdate(date1);
-				newCoupon.setCoupon_expiredate(date1);
-
-				// 쿠폰 발급
-				EventTransferResult result = couponservice.issueCoupon(newCoupon);
-				logger.info("transaciton info " + result);
-
-				if (result.toString().contains("FAIL")) {
-					return "fail";
-				}
-				
-				return "success";
-			}
-		};
-
-		Future<String> future = multiexecutorService.submit(task);
-		String futureResult = future.get();
-
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("result", futureResult);
-		
-		String json = jsonObject.toString();
-		return json;
-	}
-	
 	//레디스에서 테스트하는 메서드
 	@GetMapping(value = "rediscoupon/{mid}", produces = "application/json'; charset=UTF-8")
 	@ResponseBody
@@ -295,15 +85,17 @@ public class EventController {
 		
 		JSONObject jsonObject = new JSONObject();
 		
+		//콜백 - 버튼이 눌리면 동작
 		Callable<String> task = new Callable<String>() {
-
+			
+			//멀티 스레드 사이의 동기화 
 			@Override
 			public synchronized String call() throws Exception {
 				
 				logger.info("mid " + mid + " " + Thread.currentThread().getName() + ": 이벤트 처리");
 				String eid = "11";
 				
-				// 날짜 확인
+				// DB 상의 이벤트 시작 시간 날짜와 이벤트 참여 날짜 대조
 				Date curDate = new Date();
 				Date estartDate = couponservice.getEventStartTime(eid);
 				if (curDate.before(estartDate)) {
@@ -318,7 +110,7 @@ public class EventController {
 					return "fail";
 				}
 					
-				// 이미 발급된 회원 아이디	
+				// 이미 발급된 회원인지 확인한다
 				if(redisservice.checkCouponMid(mid, eid)){ 
 					logger.info("issued");
 					return "fail";
@@ -332,7 +124,7 @@ public class EventController {
 				CouponDto newCoupon = new CouponDto();
 				newCoupon.setEid(eid);
 				newCoupon.setMid(mid);
-				newCoupon.setCoupon_type("type");
+				newCoupon.setCoupon_type("쿠폰");
 				newCoupon.setCoupon_state("1");
 
 				// 쿠폰 유효기간 설정 (임의)
@@ -354,12 +146,15 @@ public class EventController {
 				return "success";
 			}
 		};
-
+		
+		
 		Future<String> future = multiexecutorService.submit(task);
+		//callback 에서 return 된 값을 받음
 		String futureResult = future.get();
 
 		jsonObject.put("result", futureResult);
 		
+		//json 으로 보내서 결과 표시
 		String json = jsonObject.toString();
 		return json;
 		

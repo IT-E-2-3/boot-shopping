@@ -3,7 +3,8 @@
 <th:block th:replace="~{common/layout::setContent(~{this::content})}">
 <th:block th:fragment="content">
 
-<!-- Product Detail -->
+<!--/* ProductDetail */-->
+
     <section class="sec-product-detail bg0 p-t-65 p-b-60">
       <div class="container">
         <div class="row">
@@ -14,10 +15,10 @@
                 <div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
 
                 <div class="slick3 gallery-lb">
-                   <!-- 첫 번째 사진 -->
+                   <!--/* 첫 번째 사진 */-->
                <div class="product-slick3">
                  <div class="wrap-pic-w pos-relative">
-                 
+                     <!--/* 이미지 링크 가져오기 */-->
                    <img th:src="@{${product.product_detail_url1}}" alt="IMG-PRODUCT"/>
                
                    <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hovbtn3 trans-04" th:href="@{${product.product_detail_url1}}">
@@ -26,7 +27,8 @@
                  </div>
                </div>
                
-               <!-- 두 번째 사진 -->
+               <!--/* 두 번째 사진 */-->
+               
                <div class="product-slick3">
                  <div class="wrap-pic-w pos-relative">
                    <img th:src="@{${product.product_detail_url2}}" alt="IMG-PRODUCT"/>
@@ -38,7 +40,7 @@
                  </div>
                </div>
                
-               <!-- 세 번째 사진 -->
+               <!--/* 세 번째 사진 */-->
                <div class="product-slick3">
                  <div class="wrap-pic-w pos-relative">
                   <img
@@ -75,11 +77,12 @@
                 </p>
               </div>
 
-              <!--  -->
+          
               <div class="p-t-33">
                 <div class="flex-w flex-r-m p-b-10">
                   <div class="size-203 flex-c-m respon6">사이즈</div>
 
+			<!--/*  옵션 선택 부분 */-->
                   <div class="size-204 respon6-next">
                     <div class="rs1-select2 bor8 bg0">
 						<select class="js-select2" name="size" id="size">
@@ -101,6 +104,7 @@
                     <th:block th:each="color : ${colorlist}">
                        <li id="${color.pid}_${color.color_code}" style="margin-right:8px;">
                           <a th:href="@{detail(pid=${product.pid}, co=${color.color_code})}">
+                          <!--/* 3항연산자 사용 선택된 컬러칩에 border 주기*/-->
                           	<div th:style="${product.color_code eq color.color_code ? 'border: 2px solid black;':''}">
                              <img th:src="@{${color.color_chip_url}}" style="width: 20px; height: 20px; margin:2px;"/>
                             </div>
@@ -140,6 +144,8 @@
                     </div>
                   </div>
                 </div>
+                
+                <!--/* 재고 관리를 위한 JS */-->
                 <script th:inline="javascript">
                 	function changeSum(){
                 		var productprice = document.querySelector('#productprice').textContent;
@@ -195,16 +201,16 @@
         </div>
 
         <div class="bor10 m-t-50 p-t-43 p-b-40">
-          <!-- Tab01 -->
+       
           <div class="tab01">
-            <!-- Nav tabs -->
+         
             <ul class="nav nav-tabs" role="tablist">
               <li class="nav-product p-b-10">
                 <a class="nav-link active" data-toggle="tab" role="tab">Description</a>
               </li>
             </ul>
 
-            <!-- Tab panes -->
+         
             <div class="tab-content p-t-43">
               <div class="tab-pane fade show active" id="description" role="tabpanel">
                 <div class="how-pos2 p-lr-15-md">
@@ -213,6 +219,7 @@
                       <strong>세탁방법 및 취급 시 주의사항</strong>
                       <div class="howToWash renew1907" id="newHowToWash">
                         <ul class="d-flex">
+                        <!--/* 실제 한섬에서 사용하는 유의사항 이미지 */-->
                           <li>
                             <img src="http://cdn.thehandsome.com/pc/laundryMark/pc_ko1/003.png"
                               onmouseover="this.src='http://cdn.thehandsome.com/pc/laundryMark/pc_ko2/003_.png'"
@@ -289,9 +296,11 @@
       </div>
     </section>
    
-   <!-- 함께 코디된 옷이 있을 경우에만 표시 -->
+
+   <!--/* 함께 코디된 옷이 있을 경우에만 표시*/-->
    <th:block th:if="${matching_cloth != null}">
-   <!-- Related Products -->
+    <!--/*  Related Products*/-->
+
    <section class="sec-relate-product bg0 p-t-45 p-b-105">
       <div class="container">
          <div class="p-b-45">
@@ -300,11 +309,11 @@
             </h3>
          </div>
 
-         <!-- Slide2 -->
+         <!--/* Slide2 */-->
          <div class="wrap-slick2">
             <div class="slick2">
                <div class="product-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-                  <!-- Block2 -->
+                
                   <div class="block2">
                      <div class="block2-pic hov-img0 text-center">
 						<a th:href="@{detail(pid=${matching_cloth.pid}, co=${matching_cloth.color_code})}">

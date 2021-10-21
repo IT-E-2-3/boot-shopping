@@ -12,7 +12,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableCaching
 public class CacheConfig {
-
+	
+	//특정 값을 cache 로 관리하게 해주는 관리빈
     @Bean
     public CacheManager cacheManager() {
         SimpleCacheManager cacheManager = new SimpleCacheManager();

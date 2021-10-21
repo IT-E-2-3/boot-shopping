@@ -33,8 +33,7 @@ public class CouponService {
 	@Resource
 	CouponRedisService redisservice;
 
-//	@Resource
-//	RedissonClient redissonClient;
+
 
 	public enum EventTransferResult {
 		SUCCESS, FAIL, FAIL_COUPON_SOLDOUT, FAIL_COUPON_ISSUED
@@ -47,6 +46,65 @@ public class CouponService {
 	}
 
 	@Resource private TransactionTemplate transactionTemplate;
+	
+	
+	
+	public EventTransferResult issueCoupon(CouponDto coupon) {
+		logger.info("실행");
+
+		return transactionTemplate.execute(new TransactionCallback<EventTransferResult>() {
+
+			@Override
+			public EventTransferResult doInTransaction(TransactionStatus status) {
+				logger.info("실행");
+				logger.info("<!-----------트랜잭션 구간 입니다 ------------!>");
+				try {
+
+					int remains = couponDao.selectRemainigCoupon(coupon.getEid());
+					logger.info("remains " + remains);
+					if (remains < 1) {
+						redisservice.setCouponAmount(0);
+						
+						logger.info("before clear");
+						redisservice.clearCouponAmount();
+						logger.info("after clear");
+						
+						return EventTransferResult.FAIL_COUPON_SOLDOUT;
+					}
+
+					int isIssued = couponDao.selectCheckifCouponissued(coupon.getMid(), coupon.getEid());
+					if (isIssued > 0) {
+						return EventTransferResult.FAIL_COUPON_ISSUED;
+					}
+					logger.info("isIssued " + isIssued);
+					
+					redisservice.insertCoupon(coupon.getMid(), coupon.getEid());
+					couponDao.updateCouponAmount(coupon.getEid());
+					couponDao.insertCoupon(coupon);
+					
+					logger.info("updated ? ");
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					status.setRollbackOnly();
+					// 캐시 저장
+					return EventTransferResult.FAIL;
+				}
+
+				return EventTransferResult.SUCCESS;
+			}
+		});
+
+	}
+
+	public List<CouponDto> getCouponList(String mid) {
+		return couponDao.getCouponList(mid);
+	}
+
+	public void insertCoupon(CouponDto coupon) {
+		couponDao.insertCoupon(coupon);
+	}
+	
+	
 	
 	/* 분산 락 적용 시도
 	 * 
@@ -96,59 +154,5 @@ public class CouponService {
 	 * }
 	 */
 	
-	public EventTransferResult issueCoupon(CouponDto coupon) {
-		logger.info("실행");
-
-		return transactionTemplate.execute(new TransactionCallback<EventTransferResult>() {
-
-			@Override
-			public EventTransferResult doInTransaction(TransactionStatus status) {
-				logger.info("실행");
-				logger.info("<!-----------트랜잭션 구간 입니다 ------------!>");
-				try {
-					logger.info("coupon.getEid() " + coupon.getEid());
-
-					int remains = couponDao.selectRemainigCoupon(coupon.getEid());
-					logger.info("remains " + remains);
-					if (remains < 1) {
-						redisservice.setCouponAmount(0);
-						
-						logger.info("before clear");
-						redisservice.clearCouponAmount();
-						logger.info("after clear");
-						
-						return EventTransferResult.FAIL_COUPON_SOLDOUT;
-					}
-
-					int isIssued = couponDao.selectCheckifCouponissued(coupon.getMid(), coupon.getEid());
-					if (isIssued > 0) {
-						return EventTransferResult.FAIL_COUPON_ISSUED;
-					}
-					logger.info("isIssued " + isIssued);
-					
-					redisservice.insertCoupon(coupon.getMid(), coupon.getEid());
-					couponDao.updateCouponAmount(coupon.getEid());
-					couponDao.insertCoupon(coupon);
-					
-					logger.info("updated ? ");
-				} catch (Exception e) {
-					logger.error(e.getMessage());
-					status.setRollbackOnly();
-					// 캐시 저장
-					return EventTransferResult.FAIL;
-				}
-
-				return EventTransferResult.SUCCESS;
-			}
-		});
-
-	}
-
-	public List<CouponDto> getCouponList(String mid) {
-		return couponDao.getCouponList(mid);
-	}
-
-	public void insertCoupon(CouponDto coupon) {
-		couponDao.insertCoupon(coupon);
-	}
+	
 }

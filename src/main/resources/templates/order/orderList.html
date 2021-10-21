@@ -23,11 +23,7 @@
 								th:value=" ${startDate} + ' ~ ' + ${endDate} ">
 						</div>
 						<div class="tab_c">
-							<!-- <ul class="clearfix" style="display: flex">
-		                  <li><a href="javascript:void(0);" id="setDateBtn1" class="on">1주일1주일</a></li>
-		                  <li><a href="javascript:void(0);" id="setDateBtn2">1개월1개월</a></li>
-		                  <li><a href="javascript:void(0);" id="setDateBtn3">3개월3개월</a></li>
-		               </ul> -->
+						
 						</div>
 						<form class="col-sm-2" action="orderList"
 							onsubmit="return requestPost()">
@@ -54,6 +50,7 @@
 						<th class="col-sm-2 text-center text-black">상태</th>
 					</tr>
 				</thead>
+				<!--/* order 내용을 뿌려줌  */-->
 				<tbody>
 					<th:block th:if="${#lists.isEmpty(neworderList)}">
 						<tr th:each="order : ${orderList}" class="table-secondary"
@@ -83,7 +80,7 @@
 								style="color: var(- -bs-gray-800)">배송 준비</th>
 						</tr>
 					</th:block>
-
+					<!--/* 쿼리문 생성 /*-->
 					<div th:unless="${#lists.isEmpty(neworderList)}">
 					<tr th:each="order : ${neworderList}" class="table-secondary"
 						style="height: 60px">

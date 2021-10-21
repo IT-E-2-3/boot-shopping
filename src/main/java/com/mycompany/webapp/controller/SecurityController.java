@@ -13,19 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/security")
 @Slf4j
 public class SecurityController {
-	
-	@RequestMapping("/content")
-	public String content(Authentication auth) {
-		log.info("실행");
-		
-		if(auth!=null && auth.isAuthenticated()) {
-			CustomUserDetails cud = (CustomUserDetails) auth.getPrincipal();
-			log.info(cud.getUsername());
-			log.info(cud.getUseremail());
-		}
-		
-		return "security/content";
-	}
+
 	
 	@RequestMapping("/loginForm")
 	public String loginForm() {
@@ -63,4 +51,18 @@ public class SecurityController {
 	    log.info("실행");
 	    return "redirect:/security/content";
 	 }
+	 
+	//	
+//		@RequestMapping("/content")
+//		public String content(Authentication auth) {
+//			log.info("실행");
+//			
+//			if(auth!=null && auth.isAuthenticated()) {
+//				CustomUserDetails cud = (CustomUserDetails) auth.getPrincipal();
+//				log.info(cud.getUsername());
+//				log.info(cud.getUseremail());
+//			}
+//			
+//			return "security/content";
+//		}
 }

@@ -15,15 +15,17 @@ import org.springframework.transaction.support.TransactionTemplate;
 @EnableTransactionManagement
 @Configuration
 public class TransactionManagerConfig {
-
+	
 	@Resource
 	private DataSource dataSource;
 	
+	// 트렌젝션을 관리하는 manager 객체 생성
 	@Bean
 	public PlatformTransactionManager transactionManager() {
 		return new DataSourceTransactionManager(dataSource);
 	}
 	
+	// 프로그래밍적 트랜잭션을 위한 template
 	@Bean
 	public TransactionTemplate transactionTemplate() {
 		return new TransactionTemplate(transactionManager());
