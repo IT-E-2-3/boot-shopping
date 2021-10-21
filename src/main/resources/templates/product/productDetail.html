@@ -4,7 +4,6 @@
 <th:block th:fragment="content">
 
 <!--/* ProductDetail */-->
-
     <section class="sec-product-detail bg0 p-t-65 p-b-60">
       <div class="container">
         <div class="row">
@@ -19,7 +18,7 @@
                <div class="product-slick3">
                  <div class="wrap-pic-w pos-relative">
                      <!--/* 이미지 링크 가져오기 */-->
-                   <img th:src="@{${product.product_detail_url1}}" alt="IMG-PRODUCT"/>
+                   <img th:src="${product.product_detail_url1}" alt="IMG-PRODUCT"/>
                
                    <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hovbtn3 trans-04" th:href="@{${product.product_detail_url1}}">
                      <i class="fa fa-expand"></i>
@@ -31,7 +30,7 @@
                
                <div class="product-slick3">
                  <div class="wrap-pic-w pos-relative">
-                   <img th:src="@{${product.product_detail_url2}}" alt="IMG-PRODUCT"/>
+                   <img th:src="${product.product_detail_url2}" alt="IMG-PRODUCT"/>
                
                    <a class="flex-c-m size-108 how-pos1 bor0 s-16 cl10 bg0 hov-btn3 trans-04"
                      th:href="@{${product.product_detail_url2}}">
@@ -44,7 +43,7 @@
                <div class="product-slick3">
                  <div class="wrap-pic-w pos-relative">
                   <img
-                       th:src="@{${product.product_detail_url3}}"
+                       th:src="${product.product_detail_url3}"
                        alt="IMG-PRODUCT"
                      />
 

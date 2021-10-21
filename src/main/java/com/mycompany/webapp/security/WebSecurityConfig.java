@@ -49,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests()
 			.antMatchers("/security/admin/**").hasAuthority("ROLE_ADMIN")
 			.antMatchers("/security/manager/**").hasAuthority("ROLE_MANAGER")
-			.antMatchers("/security/user/**").authenticated()
+			.antMatchers("/security/user/**", "/order/orderList/**", "/cart/2").authenticated()
 			.antMatchers("/**").permitAll();
 		
 		/*권한 없음(403에러)일 경우 이동할 경로 설정*/
