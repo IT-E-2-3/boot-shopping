@@ -390,7 +390,7 @@
           const p_camount = productnum.value; //수량
 	      const p_size_code = $("#size option:selected").val().substring($('#size').val().indexOf('|')+1); // member가 선택한 사이즈
 	      if(p_size_code != 'option'){
-	      	const p_stock = Number($("#size option:selected").val().substring(0, $('#size').val().indexOf('|'))); //member가 선택한 사이즈의 재고
+	      	var p_stock = Number($("#size option:selected").val().substring(0, $('#size').val().indexOf('|'))); //member가 선택한 사이즈의 재고
 	      }
           console.log(p_pid, p_color_code, p_size_code, p_camount);
           console.log('####', p_stock);

@@ -347,7 +347,7 @@
               method:"post", 
               contentType:'application/json; charset=UTF-8',
               dataType:'json',
-              async: false,
+             
               data:JSON.stringify(jsonArray)
            }).done((data) => {
               console.log("result");
@@ -355,7 +355,7 @@
            })      
            console.log("쇼핑백 저장");
           swal("쇼핑백 저장", "현재 쇼핑백 내용을 저장했습니다.", "success");
-           
+           // async: false,
     },
         
     delCheckedItem: function(){
@@ -421,7 +421,7 @@
                data:JSON.stringify(jsonArray)
             }).done((data) => {
                console.log("result")
-               window.location.href="/order/";
+              // window.location.href="/order/";
             })      
  
        
